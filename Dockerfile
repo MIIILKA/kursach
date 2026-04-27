@@ -4,7 +4,7 @@ COPY . /app
 WORKDIR /app
 RUN mvn clean package -DskipTests
 
-# Етап 2: Запуск (Run stage)
+# Етап 2: Запуск (Rаun stage)
 FROM openjdk:17-jdk-slim
 COPY --from=build /app/target/*.jar app.jar
 
