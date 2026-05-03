@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VECTOR·STUDIO — Web Edition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+        :root {
+            --bg-deep:    #06080f;
+            --bg-panel:   #0a0d18;
+            --bg-surface: #0f1322;
+            --bg-card:    #141a2d;
+            --cyan:       #00dcff;
+            --violet:     #7828dc;
+            --pink:       #ff32b4;
+            --green:      #00ff96;
+            --text-hi:    #d2e1ff;
+            --text-lo:    #46607a;
+            --border:     #1e2846;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg-deep);
+            color: var(--text-hi);
+            font-family: 'DM Sans', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        /* ── TITLEBAR ── */
+        #titlebar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-panel);
+            height: 40px;
+            padding: 0 16px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+            position: relative;
+        }
+        #titlebar::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 25%; right: 25%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+        }
+        .logo { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--cyan); font-weight: 700; letter-spacing: 2px; }
+        .logo-sub { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-lo); margin-left: 10px; }
+        .win-btns { display: flex; gap: 6px; }
+        .win-btn {
+            width: 14px; height: 14px; border-radius: 50%; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 8px;
+            opacity: 0.7; transition: opacity .2s;
+        }
+        .win-btn:hover { opacity: 1; }
+        .win-btn.min { background: #ffcc00; }
+        .win-btn.max { background: #00c855; }
+        .win-btn.cls { background: #ff3c50; }
+
+        /* ── MAIN LAYOUT ── */
+        #app {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* ── SIDEBAR ── */
+        #sidebar {
+            width: 68px;
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 6px;
+            gap: 4px;
+            overflow-y: auto;
+            position: relative;
+            flex-shrink: 0;
+        }
+        #sidebar::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--cyan), var(--violet));
+            opacity: 0.5;
+        }
+        .section-lbl {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            color: var(--text-lo);
+            letter-spacing: 1.5px;
+            margin: 6px 0 4px;
+            align-self: stretch;
+            text-align: center;
+        }
+        .tool-btn {
+            width: 52px; height: 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-hi);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all .15s;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .tool-btn:hover {
+            border-color: rgba(0,220,255,.4);
+            background: rgba(0,220,255,.08);
+        }
+        .tool-btn.active {
+            background: linear-gradient(135deg, rgba(0,220,255,.2), rgba(120,40,220,.2));
+            border-color: var(--cyan);
+            box-shadow: 0 0 12px rgba(0,220,255,.2);
+        }
+        .tool-btn .tooltip {
+            position: absolute;
+            left: 62px; top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .15s;
+            z-index: 100;
+        }
+        .tool-btn:hover .tooltip { opacity: 1; }
+
+        /* ── CENTER ── */
+        #center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ── FLOATBAR ── */
+        #floatbar {
+            background: rgba(15,19,40,.93);
+            border-bottom: 1px solid var(--border);
+            padding: 0 12px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+        #floatbar::-webkit-scrollbar { height: 2px; }
+        #floatbar::-webkit-scrollbar-thumb { background: var(--border); }
+        .bar-sep { width: 1px; height: 22px; background: var(--border); flex-shrink: 0; }
+        .bar-lbl { font-size: 11px; color: var(--text-lo); white-space: nowrap; flex-shrink: 0; }
+        .color-dot {
+            width: 28px; height: 28px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,.2);
+            cursor: pointer; flex-shrink: 0;
+            transition: transform .2s, box-shadow .2s;
+        }
+        .color-dot:hover { transform: scale(1.15); box-shadow: 0 0 10px currentColor; }
+        .bar-select {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-hi);
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .bar-select:focus { outline: none; border-color: var(--cyan); }
+        .bar-checkbox { display: flex; align-items: center; gap: 5px; cursor: pointer; flex-shrink: 0; }
+        .bar-checkbox input { accent-color: var(--cyan); }
+        .bar-checkbox span { font-size: 12px; color: var(--text-hi); }
+        .ghost-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-hi);
+            font-size: 12px; font-family: 'DM Sans', sans-serif;
+            padding: 4px 12px; border-radius: 7px;
+            cursor: pointer; flex-shrink: 0;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+        .ghost-btn:hover { border-color: rgba(0,220,255,.4); background: rgba(0,220,255,.08); }
+        .glow-btn {
+            padding: 5px 14px; border-radius: 8px;
+            border: none; cursor: pointer;
+            font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+            color: white; flex-shrink: 0;
+            transition: all .2s; white-space: nowrap;
+        }
+        .glow-btn:hover { filter: brightness(1.2); }
+        .glow-save { background: linear-gradient(135deg, var(--green), #00c876); }
+        .glow-clear { background: linear-gradient(135deg, #ff3250, #c02040); }
+
+        /* Templates dropdown */
+        .template-wrap { position: relative; flex-shrink: 0; }
+        .template-btn {
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-hi); font-size: 12px; font-family: 'DM Sans', sans-serif;
+            padding: 5px 12px; border-radius: 7px; cursor: pointer;
+            transition: all .15s;
+        }
+        .template-btn:hover { border-color: rgba(0,220,255,.4); }
+        .template-dropdown {
+            position: absolute; top: 110%; left: 0;
+            background: var(--bg-surface); border: 1px solid var(--border);
+            border-radius: 10px; min-width: 160px;
+            z-index: 200; display: none;
+            box-shadow: 0 8px 32px rgba(0,0,0,.5);
+            overflow: hidden;
+        }
+        .template-dropdown.open { display: block; }
+        .tpl-cat {
+            padding: 8px 14px 4px;
+            font-size: 10px; color: var(--text-lo);
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border);
+        }
+        .tpl-group { position: relative; }
+        .tpl-group-lbl {
+            padding: 7px 14px;
+            font-size: 12px; color: var(--text-hi);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: background .15s;
+        }
+        .tpl-group-lbl:hover { background: rgba(0,220,255,.08); }
+        .tpl-sub {
+            display: none; background: var(--bg-card);
+            border-top: 1px solid var(--border);
+        }
+        .tpl-sub.open { display: block; }
+        .tpl-item {
+            padding: 6px 24px;
+            font-size: 12px; color: var(--text-lo);
+            cursor: pointer;
+            transition: all .15s;
+        }
+        .tpl-item:hover { color: var(--cyan); background: rgba(0,220,255,.05); }
+
+        /* ── CANVAS AREA ── */
+        #canvas-wrap {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: #08090e;
+        }
+        #main-canvas {
+            position: absolute; top: 0; left: 0;
+            cursor: crosshair;
+        }
+        #overlay-canvas {
+            position: absolute; top: 0; left: 0;
+            pointer-events: none;
+        }
+
+        /* ── STATUS BAR ── */
+        #statusbar {
+            height: 30px;
+            background: var(--bg-panel);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: var(--text-lo);
+            flex-shrink: 0;
+        }
+        #status-coords { color: var(--text-lo); }
+        #status-shapes { color: var(--text-lo); }
+        #status-tool   { color: var(--cyan); }
+        #status-msg    { color: var(--text-lo); margin-left: auto; }
+
+        /* Text input modal */
+        #text-modal {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,.6);
+            z-index: 500;
+            align-items: center; justify-content: center;
+        }
+        #text-modal.open { display: flex; }
+        .modal-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            min-width: 340px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.6);
+        }
+        .modal-box h3 { font-size: 14px; color: var(--text-hi); margin-bottom: 14px; }
+        .modal-box input {
+            width: 100%;
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-hi); font-size: 14px; font-family: 'DM Sans', sans-serif;
+            padding: 10px 14px; border-radius: 8px;
+            outline: none; margin-bottom: 14px;
+            transition: border-color .15s;
+        }
+        .modal-box input:focus { border-color: var(--cyan); }
+        .modal-btns { display: flex; gap: 10px; justify-content: flex-end; }
+        .modal-ok { background: var(--cyan); color: #000; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .modal-cancel { background: var(--bg-card); color: var(--text-hi); border: 1px solid var(--border); padding: 8px 20px; border-radius: 8px; cursor: pointer; }
+
+        /* Color picker hidden input */
+        #color-input, #bg-color-input { display: none; }
+    </style>
+</head>
+<body>
+
+<!-- TITLEBAR -->
+<div id="titlebar">
+    <div style="display:flex;align-items:center">
+        <span class="logo">VECTOR·STUDIO</span>
+        <span class="logo-sub">/ WEB EDITION</span>
+    </div>
+    <div class="win-btns">
+        <div class="win-btn min" title="Мінімізувати"></div>
+        <div class="win-btn max" title="Розгорнути"></div>
+        <div class="win-btn cls" title="Закрити"></div>
+    </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+    <!-- SIDEBAR -->
+    <div id="sidebar">
+        <div class="section-lbl">DRAW</div>
+        <button class="tool-btn" data-tool="Select" title="Select">⊹<span class="tooltip">Select</span></button>
+        <button class="tool-btn active" data-tool="Rectangle" title="Rectangle">▭<span class="tooltip">Rectangle</span></button>
+        <button class="tool-btn" data-tool="Circle" title="Circle">◯<span class="tooltip">Circle</span></button>
+        <button class="tool-btn" data-tool="Triangle" title="Triangle">△<span class="tooltip">Triangle</span></button>
+        <button class="tool-btn" data-tool="Line" title="Line">╱<span class="tooltip">Line</span></button>
+        <button class="tool-btn" data-tool="Arrow" title="Arrow">↗<span class="tooltip">Arrow</span></button>
+        <button class="tool-btn" data-tool="Pencil" title="Pencil">✏<span class="tooltip">Pencil</span></button>
+        <button class="tool-btn" data-tool="Eraser" title="Eraser">⌫<span class="tooltip">Eraser</span></button>
+        <div class="section-lbl">MORE</div>
+        <button class="tool-btn" data-tool="Text" title="Text">T<span class="tooltip">Text</span></button>
+        <button class="tool-btn" data-tool="Picker" title="Picker">⧩<span class="tooltip">Picker</span></button>
+    </div>
+
+    <!-- CENTER -->
+    <div id="center">
+        <!-- FLOATBAR -->
+        <div id="floatbar">
+            <div class="color-dot" id="color-dot" style="background:#00dcff" title="Колір об'єкта"></div>
+            <span class="bar-lbl">Колір</span>
+            <div class="bar-sep"></div>
+            <div class="color-dot" id="bg-dot" style="background:#06080f" title="Колір фону"></div>
+            <span class="bar-lbl">Фон</span>
+            <div class="bar-sep"></div>
+            <span class="bar-lbl">Товщина:</span>
+            <select class="bar-select" id="stroke-select">
+                <option value="1">1px</option>
+                <option value="2" selected>2px</option>
+                <option value="3">3px</option>
+                <option value="5">5px</option>
+                <option value="8">8px</option>
+                <option value="12">12px</option>
+            </select>
+            <div class="bar-sep"></div>
+            <label class="bar-checkbox">
+                <input type="checkbox" id="fill-check">
+                <span>Заливка</span>
+            </label>
+            <div class="bar-sep"></div>
+            <span class="bar-lbl">Шаблони:</span>
+            <div class="template-wrap">
+                <button class="template-btn" id="tpl-btn">▾ Вибрати</button>
+                <div class="template-dropdown" id="tpl-dropdown">
+                    <div class="tpl-cat">TEMPLATES</div>
+                    <div class="tpl-group">
+                        <div class="tpl-group-lbl" data-cat="Візитка">Візитка <span>›</span></div>
+                        <div class="tpl-sub" id="sub-Візитка">
+                            <div class="tpl-item" data-cat="Візитка" data-v="1">Варіант 1</div>
+                            <div class="tpl-item" data-cat="Візитка" data-v="2">Варіант 2</div>
+                            <div class="tpl-item" data-cat="Візитка" data-v="3">Варіант 3</div>
+                            <div class="tpl-item" data-cat="Візитка" data-v="4">Варіант 4</div>
+                            <div class="tpl-item" data-cat="Візитка" data-v="5">Варіант 5</div>
+                        </div>
+                    </div>
+                    <div class="tpl-group">
+                        <div class="tpl-group-lbl" data-cat="Постер">Постер <span>›</span></div>
+                        <div class="tpl-sub" id="sub-Постер">
+                            <div class="tpl-item" data-cat="Постер" data-v="1">Варіант 1</div>
+                            <div class="tpl-item" data-cat="Постер" data-v="2">Варіант 2</div>
+                            <div class="tpl-item" data-cat="Постер" data-v="3">Варіант 3</div>
+                            <div class="tpl-item" data-cat="Постер" data-v="4">Варіант 4</div>
+                            <div class="tpl-item" data-cat="Постер" data-v="5">Варіант 5</div>
+                        </div>
+                    </div>
+                    <div class="tpl-group">
+                        <div class="tpl-group-lbl" data-cat="Блок-схема">Блок-схема <span>›</span></div>
+                        <div class="tpl-sub" id="sub-Блок-схема">
+                            <div class="tpl-item" data-cat="Блок-схема" data-v="1">Варіант 1</div>
+                            <div class="tpl-item" data-cat="Блок-схема" data-v="2">Варіант 2</div>
+                            <div class="tpl-item" data-cat="Блок-схема" data-v="3">Варіант 3</div>
+                            <div class="tpl-item" data-cat="Блок-схема" data-v="4">Варіант 4</div>
+                            <div class="tpl-item" data-cat="Блок-схема" data-v="5">Варіант 5</div>
+                        </div>
+                    </div>
+                    <div class="tpl-group">
+                        <div class="tpl-group-lbl" data-cat="Логотип">Логотип <span>›</span></div>
+                        <div class="tpl-sub" id="sub-Логотип">
+                            <div class="tpl-item" data-cat="Логотип" data-v="1">Варіант 1</div>
+                            <div class="tpl-item" data-cat="Логотип" data-v="2">Варіант 2</div>
+                            <div class="tpl-item" data-cat="Логотип" data-v="3">Варіант 3</div>
+                            <div class="tpl-item" data-cat="Логотип" data-v="4">Варіант 4</div>
+                            <div class="tpl-item" data-cat="Логотип" data-v="5">Варіант 5</div>
+                        </div>
+                    </div>
+                    <div class="tpl-group">
+                        <div class="tpl-group-lbl" data-cat="Рамка">Рамка <span>›</span></div>
+                        <div class="tpl-sub" id="sub-Рамка">
+                            <div class="tpl-item" data-cat="Рамка" data-v="1">Варіант 1</div>
+                            <div class="tpl-item" data-cat="Рамка" data-v="2">Варіант 2</div>
+                            <div class="tpl-item" data-cat="Рамка" data-v="3">Варіант 3</div>
+                            <div class="tpl-item" data-cat="Рамка" data-v="4">Варіант 4</div>
+                            <div class="tpl-item" data-cat="Рамка" data-v="5">Варіант 5</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bar-sep"></div>
+            <button class="ghost-btn" id="grid-btn">⊞ Grid</button>
+            <button class="ghost-btn" id="undo-btn">↩ Undo</button>
+            <button class="ghost-btn" id="redo-btn">↪ Redo</button>
+            <div class="bar-sep"></div>
+            <button class="glow-btn glow-save" id="save-btn">⬇ Зберегти</button>
+            <button class="glow-btn glow-clear" id="clear-btn">✕ Очистити</button>
+        </div>
+
+        <!-- CANVAS -->
+        <div id="canvas-wrap">
+            <canvas id="main-canvas"></canvas>
+            <canvas id="overlay-canvas"></canvas>
+        </div>
+
+        <!-- STATUSBAR -->
+        <div id="statusbar">
+            <span id="status-tool">Rectangle</span>
+            <span id="status-coords">X: 0, Y: 0</span>
+            <span id="status-shapes">Фігур: 0</span>
+            <span id="status-msg">Ctrl+Z undo · Ctrl+Y redo · G grid · Del видалити · Ctrl+S зберегти</span>
+        </div>
+    </div>
+</div>
+
+<!-- TEXT MODAL -->
+<div id="text-modal">
+    <div class="modal-box">
+        <h3>Введіть текст</h3>
+        <input type="text" id="text-input" placeholder="Текст...">
+        <div class="modal-btns">
+            <button class="modal-cancel" id="text-cancel">Скасувати</button>
+            <button class="modal-ok" id="text-ok">OK</button>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden color inputs -->
+<input type="color" id="color-input" value="#00dcff">
+<input type="color" id="bg-color-input" value="#06080f">
+
+<script>
+    // ─── STATE ───────────────────────────────────────────────────────────────────
+    const state = {
+        tool: 'Rectangle',
+        color: '#00dcff',
+        bgColor: '#06080f',
+        strokeWidth: 2,
+        filled: false,
+        showGrid: false,
+        shapes: [],
+        undoStack: [],
+        redoStack: [],
+        currentShape: null,
+        selectedShape: null,
+        dragStart: { x: 0, y: 0 },
+        textPending: null,
+        fontSize: 18,
+        particles: [],
+        tick: 0,
+        dotPhases: [],
+    };
+
+    // ─── CANVAS SETUP ────────────────────────────────────────────────────────────
+    const wrap      = document.getElementById('canvas-wrap');
+    const mainCanvas = document.getElementById('main-canvas');
+    const overlayCanvas = document.getElementById('overlay-canvas');
+    const ctx   = mainCanvas.getContext('2d');
+    const octx  = overlayCanvas.getContext('2d');
+
+    function resizeCanvas() {
+        const w = wrap.clientWidth, h = wrap.clientHeight;
+        mainCanvas.width = overlayCanvas.width = w;
+        mainCanvas.height = overlayCanvas.height = h;
+        // init dot phases
+        const cols = Math.ceil(w/32)+1, rows = Math.ceil(h/32)+1;
+        state.dotPhases = Array.from({length: cols*rows}, () => Math.random()*6.28);
+        redraw();
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // ─── COLORS ──────────────────────────────────────────────────────────────────
+    function hexToRgb(hex) {
+        const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+        return {r,g,b};
+    }
+    function rgbToHex(r,g,b) {
+        return '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+    }
+    const VARIANT_COLORS = ['#3574f0','#e74c3c','#9b59b6','#1abc9c','#f1c40f'];
+    function variantColor(v) { return VARIANT_COLORS[(v-1)%5]; }
+
+    // ─── UNDO/REDO ────────────────────────────────────────────────────────────────
+    function saveUndo() {
+        state.undoStack.push(JSON.parse(JSON.stringify(state.shapes)));
+        state.redoStack = [];
+        if (state.undoStack.length > 50) state.undoStack.shift();
+    }
+    function undo() {
+        if (!state.undoStack.length) return;
+        state.redoStack.push(JSON.parse(JSON.stringify(state.shapes)));
+        state.shapes = state.undoStack.pop();
+        state.selectedShape = null;
+        redraw(); updateStatus();
+    }
+    function redo() {
+        if (!state.redoStack.length) return;
+        state.undoStack.push(JSON.parse(JSON.stringify(state.shapes)));
+        state.shapes = state.redoStack.pop();
+        redraw(); updateStatus();
+    }
+
+    // ─── SHAPE DATA ──────────────────────────────────────────────────────────────
+    function makeShape(type, x, y) {
+        return { type, x, y, w: 0, h: 0,
+            color: state.color, stroke: state.strokeWidth,
+            filled: state.filled, selected: false,
+            points: (type==='Pencil'||type==='Eraser') ? [{x,y}] : null,
+            text: null, fontSize: state.fontSize };
+    }
+
+    // ─── DRAW ────────────────────────────────────────────────────────────────────
+    function redraw() {
+        ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+        // background
+        ctx.fillStyle = state.bgColor;
+        ctx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
+        if (state.showGrid) drawGrid();
+        for (const s of state.shapes) drawShape(ctx, s);
+    }
+
+    function drawGrid() {
+        ctx.strokeStyle = 'rgba(200,210,230,.18)';
+        ctx.lineWidth = 1;
+        const step = 25;
+        for (let x = 0; x < mainCanvas.width; x += step) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,mainCanvas.height); ctx.stroke(); }
+        for (let y = 0; y < mainCanvas.height; y += step) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(mainCanvas.width,y); ctx.stroke(); }
+    }
+
+    function drawShape(c, s) {
+        c.save();
+        c.strokeStyle = s.color;
+        c.fillStyle = s.color;
+        c.lineWidth = s.stroke || 2;
+        c.lineCap = 'round';
+        c.lineJoin = 'round';
+
+        const x = s.x, y = s.y, w = s.w, h = s.h;
+
+        switch(s.type) {
+            case 'Rectangle':
+                if (s.filled) {
+                    const grd = c.createLinearGradient(x,y,x,y+h);
+                    const rgb = hexToRgb(s.color);
+                    grd.addColorStop(0, s.color);
+                    grd.addColorStop(1, `rgb(${Math.max(rgb.r-40,0)},${Math.max(rgb.g-40,0)},${Math.max(rgb.b-40,0)})`);
+                    c.fillStyle = grd;
+                    c.fillRect(x,y,w,h);
+                } else {
+                    c.strokeRect(x,y,w,h);
+                }
+                break;
+            case 'Circle': {
+                const cx2 = x+w/2, cy2 = y+h/2, rx = Math.abs(w/2), ry = Math.abs(h/2);
+                c.beginPath();
+                c.ellipse(cx2, cy2, rx||1, ry||1, 0, 0, Math.PI*2);
+                if (s.filled) c.fill(); else c.stroke();
+                break;
+            }
+            case 'Triangle': {
+                const px = [x+w/2, x, x+w];
+                const py = [y, y+h, y+h];
+                c.beginPath();
+                c.moveTo(px[0],py[0]); c.lineTo(px[1],py[1]); c.lineTo(px[2],py[2]); c.closePath();
+                if (s.filled) c.fill(); else c.stroke();
+                break;
+            }
+            case 'Line':
+                c.beginPath(); c.moveTo(x,y); c.lineTo(x+w,y+h); c.stroke();
+                break;
+            case 'Arrow': {
+                c.beginPath(); c.moveTo(x,y); c.lineTo(x+w,y+h); c.stroke();
+                const angle = Math.atan2(h,w), headLen = 18, spread = Math.PI/7;
+                const tx = x+w, ty = y+h;
+                c.beginPath();
+                c.moveTo(tx, ty);
+                c.lineTo(tx - headLen*Math.cos(angle-spread), ty - headLen*Math.sin(angle-spread));
+                c.moveTo(tx, ty);
+                c.lineTo(tx - headLen*Math.cos(angle+spread), ty - headLen*Math.sin(angle+spread));
+                c.stroke();
+                break;
+            }
+            case 'Pencil':
+                if (!s.points || s.points.length < 2) break;
+                c.beginPath(); c.moveTo(s.points[0].x, s.points[0].y);
+                for (let i=1;i<s.points.length;i++) c.lineTo(s.points[i].x, s.points[i].y);
+                c.stroke();
+                break;
+            case 'Eraser':
+                if (!s.points || s.points.length < 2) break;
+                c.strokeStyle = state.bgColor;
+                c.lineWidth = (s.stroke||2)*4+8;
+                c.beginPath(); c.moveTo(s.points[0].x, s.points[0].y);
+                for (let i=1;i<s.points.length;i++) c.lineTo(s.points[i].x, s.points[i].y);
+                c.stroke();
+                break;
+            case 'Text':
+                c.fillStyle = s.color;
+                c.font = `${s.fontSize||18}px 'DM Sans', sans-serif`;
+                c.fillText(s.text||'', x, y + (s.fontSize||18));
+                break;
+        }
+
+        if (s.selected) drawHandles(c, s);
+        c.restore();
+    }
+
+    function drawHandles(c, s) {
+        let x1,y1,x2,y2;
+        if (s.type==='Pencil'||s.type==='Eraser') {
+            const xs = s.points.map(p=>p.x), ys = s.points.map(p=>p.y);
+            x1=Math.min(...xs);y1=Math.min(...ys);x2=Math.max(...xs);y2=Math.max(...ys);
+        } else {
+            x1=Math.min(s.x,s.x+s.w); y1=Math.min(s.y,s.y+s.h);
+            x2=Math.max(s.x,s.x+s.w); y2=Math.max(s.y,s.y+s.h);
+        }
+        c.save();
+        c.strokeStyle = '#3574f0'; c.lineWidth = 1.2;
+        c.setLineDash([4,3]);
+        c.strokeRect(x1-4,y1-4,(x2-x1)+8,(y2-y1)+8);
+        c.setLineDash([]);
+        const hx = [x1-4,(x1+x2)/2-4,x2-4,x1-4,x2-4,x1-4,(x1+x2)/2-4,x2-4];
+        const hy = [y1-4,y1-4,y1-4,(y1+y2)/2-4,(y1+y2)/2-4,y2-4,y2-4,y2-4];
+        for(let i=0;i<hx.length;i++){
+            c.fillStyle='#fff'; c.beginPath(); c.arc(hx[i]+4,hy[i]+4,4,0,Math.PI*2); c.fill();
+            c.strokeStyle='#3574f0'; c.stroke();
+        }
+        c.restore();
+    }
+
+    // ─── SHAPE CONTAINS ──────────────────────────────────────────────────────────
+    function shapeContains(s, px, py) {
+        if (s.type==='Line'||s.type==='Arrow') {
+            return ptSegDist(s.x,s.y,s.x+s.w,s.y+s.h,px,py) < 8;
+        }
+        if (s.type==='Pencil'||s.type==='Eraser') {
+            for(let i=0;i<(s.points||[]).length-1;i++)
+                if(ptSegDist(s.points[i].x,s.points[i].y,s.points[i+1].x,s.points[i+1].y,px,py)<8) return true;
+            return false;
+        }
+        if (s.type==='Circle') {
+            const cx=s.x+s.w/2,cy=s.y+s.h/2,rx=Math.abs(s.w/2),ry=Math.abs(s.h/2);
+            if(!rx||!ry) return false;
+            return ((px-cx)/rx)**2+((py-cy)/ry)**2<=1;
+        }
+        const x1=Math.min(s.x,s.x+s.w),y1=Math.min(s.y,s.y+s.h);
+        const x2=Math.max(s.x,s.x+s.w),y2=Math.max(s.y,s.y+s.h);
+        return px>=x1&&px<=x2&&py>=y1&&py<=y2;
+    }
+    function ptSegDist(x1,y1,x2,y2,px,py) {
+        const dx=x2-x1,dy=y2-y1,len2=dx*dx+dy*dy;
+        if(!len2) return Math.hypot(px-x1,py-y1);
+        const t=Math.max(0,Math.min(1,((px-x1)*dx+(py-y1)*dy)/len2));
+        return Math.hypot(px-(x1+t*dx),py-(y1+t*dy));
+    }
+
+    // ─── STATUS ──────────────────────────────────────────────────────────────────
+    function updateStatus(x,y) {
+        if(x!==undefined) document.getElementById('status-coords').textContent=`X: ${x}, Y: ${y}`;
+        document.getElementById('status-shapes').textContent=`Фігур: ${state.shapes.length}`;
+        document.getElementById('status-tool').textContent=state.tool;
+    }
+
+    // ─── MOUSE EVENTS ────────────────────────────────────────────────────────────
+    mainCanvas.addEventListener('mousedown', onMouseDown);
+    mainCanvas.addEventListener('mousemove', onMouseMove);
+    mainCanvas.addEventListener('mouseup', onMouseUp);
+    mainCanvas.addEventListener('mouseleave', ()=>{ state.currentShape=null; });
+
+    function getPos(e) {
+        const r = mainCanvas.getBoundingClientRect();
+        return { x: Math.round(e.clientX-r.left), y: Math.round(e.clientY-r.top) };
+    }
+
+    function onMouseDown(e) {
+        const {x,y} = getPos(e);
+        state.dragStart = {x,y};
+
+        if (state.tool==='Picker') { pickColor(x,y); return; }
+        if (state.tool==='Select') { doSelect(x,y); return; }
+        if (state.tool==='Text') { openTextModal(x,y); return; }
+
+        saveUndo();
+        const s = makeShape(state.tool, x, y);
+        state.shapes.push(s);
+        state.currentShape = s;
+        spawnParticles(x,y);
+        redraw(); updateStatus(x,y);
+    }
+
+    function onMouseMove(e) {
+        const {x,y} = getPos(e);
+        updateStatus(x,y);
+
+        if (state.tool==='Select' && e.buttons===1 && state.selectedShape) {
+            state.selectedShape.x += x-state.dragStart.x;
+            state.selectedShape.y += y-state.dragStart.y;
+            state.dragStart={x,y};
+            redraw(); return;
+        }
+        if (!state.currentShape || e.buttons!==1) return;
+        const s = state.currentShape;
+
+        if (s.type==='Pencil'||s.type==='Eraser') {
+            s.points.push({x,y});
+        } else {
+            let w=x-s.x, h=y-s.y;
+            if (e.shiftKey) { const side=Math.max(Math.abs(w),Math.abs(h)); w=w<0?-side:side; h=h<0?-side:side; }
+            s.w=w; s.h=h;
+        }
+        redraw();
+    }
+
+    function onMouseUp() { state.currentShape=null; }
+
+    function doSelect(x,y) {
+        if (state.selectedShape) state.selectedShape.selected=false;
+        state.selectedShape=null;
+        for(let i=state.shapes.length-1;i>=0;i--) {
+            if(shapeContains(state.shapes[i],x,y)) {
+                state.selectedShape=state.shapes[i];
+                state.selectedShape.selected=true;
+                break;
+            }
+        }
+        redraw();
+    }
+
+    function pickColor(x,y) {
+        const imgData = ctx.getImageData(x,y,1,1).data;
+        const hex = rgbToHex(imgData[0],imgData[1],imgData[2]);
+        setColor(hex);
+    }
+
+    // ─── TEXT MODAL ──────────────────────────────────────────────────────────────
+    function openTextModal(x,y) {
+        state.textPending={x,y};
+        const modal=document.getElementById('text-modal');
+        const input=document.getElementById('text-input');
+        modal.classList.add('open');
+        input.value='';
+        setTimeout(()=>input.focus(),50);
+    }
+    document.getElementById('text-ok').onclick=()=>{
+        const txt=document.getElementById('text-input').value.trim();
+        if(txt&&state.textPending){
+            saveUndo();
+            const s=makeShape('Text',state.textPending.x,state.textPending.y);
+            s.text=txt;
+            state.shapes.push(s);
+            redraw(); updateStatus();
+        }
+        document.getElementById('text-modal').classList.remove('open');
+    };
+    document.getElementById('text-cancel').onclick=()=>{
+        document.getElementById('text-modal').classList.remove('open');
+    };
+    document.getElementById('text-input').addEventListener('keydown',e=>{
+        if(e.key==='Enter') document.getElementById('text-ok').click();
+        if(e.key==='Escape') document.getElementById('text-cancel').click();
+    });
+
+    // ─── TOOL BUTTONS ────────────────────────────────────────────────────────────
+    document.querySelectorAll('.tool-btn').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+            const tool=btn.dataset.tool;
+            state.tool=tool;
+            document.querySelectorAll('.tool-btn').forEach(b=>b.classList.toggle('active',b.dataset.tool===tool));
+            if(state.selectedShape){state.selectedShape.selected=false;state.selectedShape=null;redraw();}
+            updateStatus();
+        });
+    });
+
+    // ─── COLOR ───────────────────────────────────────────────────────────────────
+    function setColor(hex) {
+        state.color=hex;
+        document.getElementById('color-dot').style.background=hex;
+        document.getElementById('color-input').value=hex;
+    }
+    document.getElementById('color-dot').onclick=()=>document.getElementById('color-input').click();
+    document.getElementById('color-input').oninput=e=>setColor(e.target.value);
+    document.getElementById('bg-dot').onclick=()=>document.getElementById('bg-color-input').click();
+    document.getElementById('bg-color-input').oninput=e=>{
+        state.bgColor=e.target.value;
+        document.getElementById('bg-dot').style.background=e.target.value;
+        redraw();
+    };
+
+    // ─── STROKE / FILL ───────────────────────────────────────────────────────────
+    document.getElementById('stroke-select').onchange=e=>state.strokeWidth=parseFloat(e.target.value);
+    document.getElementById('fill-check').onchange=e=>state.filled=e.target.checked;
+
+    // ─── BUTTONS ─────────────────────────────────────────────────────────────────
+    document.getElementById('grid-btn').onclick=()=>{state.showGrid=!state.showGrid;redraw();};
+    document.getElementById('undo-btn').onclick=undo;
+    document.getElementById('redo-btn').onclick=redo;
+    document.getElementById('clear-btn').onclick=()=>{saveUndo();state.shapes=[];state.selectedShape=null;redraw();updateStatus();};
+    document.getElementById('save-btn').onclick=()=>{
+        const a=document.createElement('a');
+        a.download='vector-studio.png';
+        a.href=mainCanvas.toDataURL();
+        a.click();
+    };
+
+    // ─── KEYBOARD ────────────────────────────────────────────────────────────────
+    document.addEventListener('keydown',e=>{
+        if(e.target.tagName==='INPUT') return;
+        if(e.ctrlKey&&e.key==='z'){e.preventDefault();undo();}
+        if(e.ctrlKey&&e.key==='y'){e.preventDefault();redo();}
+        if(e.ctrlKey&&e.key==='s'){e.preventDefault();document.getElementById('save-btn').click();}
+        if(e.key==='g'||e.key==='G'){state.showGrid=!state.showGrid;redraw();}
+        if((e.key==='Delete'||e.key==='Backspace')&&state.selectedShape){
+            e.preventDefault();
+            saveUndo();
+            state.shapes=state.shapes.filter(s=>s!==state.selectedShape);
+            state.selectedShape=null; redraw(); updateStatus();
+        }
+    });
+
+    // ─── TEMPLATES ───────────────────────────────────────────────────────────────
+    document.getElementById('tpl-btn').onclick=(e)=>{
+        e.stopPropagation();
+        document.getElementById('tpl-dropdown').classList.toggle('open');
+    };
+    document.querySelectorAll('.tpl-group-lbl').forEach(lbl=>{
+        lbl.onclick=(e)=>{
+            e.stopPropagation();
+            const cat=lbl.dataset.cat;
+            const sub=document.getElementById('sub-'+cat);
+            if(sub) sub.classList.toggle('open');
+        };
+    });
+    document.querySelectorAll('.tpl-item').forEach(item=>{
+        item.onclick=(e)=>{
+            e.stopPropagation();
+            const cat=item.dataset.cat, v=parseInt(item.dataset.v);
+            saveUndo();
+            state.shapes=createTemplate(cat,v);
+            state.selectedShape=null;
+            document.getElementById('tpl-dropdown').classList.remove('open');
+            redraw(); updateStatus();
+        };
+    });
+    document.addEventListener('click',()=>document.getElementById('tpl-dropdown').classList.remove('open'));
+
+    // ─── TEMPLATE LOGIC ──────────────────────────────────────────────────────────
+    function sh(type,x,y,w,h,color,stroke,filled,extra={}) {
+        return {type,x,y,w,h,color,stroke:stroke||2,filled:!!filled,selected:false,points:null,text:null,fontSize:18,...extra};
+    }
+    function txt(x,y,color,text,fontSize) {
+        return {type:'Text',x,y,w:0,h:0,color,stroke:1,filled:false,selected:false,points:null,text,fontSize};
+    }
+    function arr(x,y,w,h,color) { return sh('Arrow',x,y,w,h,color,2,false); }
+    function addNode(shapes,x,y,color,label,type) {
+        if(type===1) shapes.push(sh('Circle',x,y,120,50,color,0,true));
+        else shapes.push(sh('Rectangle',x,y,120,60,color,0,true));
+        shapes.push(txt(x+25,y+20,'#fff',label,13));
+    }
+
+    function createTemplate(name,v) {
+        switch(name) {
+            case 'Візитка': return businessCard(v);
+            case 'Постер': return poster(v);
+            case 'Блок-схема': return flowchart(v);
+            case 'Логотип': return logoTemplate(v);
+            case 'Рамка': return photoFrame(v);
+            default: return [];
+        }
+    }
+
+    function businessCard(v) {
+        const s=[];
+        const acc=variantColor(v), dark='#23262d';
+        s.push(sh('Rectangle',100,100,500,280,v%2===0?dark:'#ffffff',0,true));
+        if(v===1){s.push(sh('Rectangle',100,100,20,280,acc,0,true));}
+        else if(v===2){s.push(sh('Triangle',500,100,100,100,acc,0,true));}
+        else if(v===3){s.push(sh('Rectangle',100,230,500,5,acc,0,true));}
+        else if(v===4){
+            s.push(sh('Circle',500,100,80,80,acc,0,true));
+            s.push(sh('Circle',530,130,60,60,darkenColor(acc),0,true));
+        } else {s.push(sh('Rectangle',120,120,460,240,acc,2,false));}
+        s.push(txt(150,160,v%2===0?'#fff':'#000','MYKOLA BALYUK',22));
+        s.push(txt(150,195,acc,'Software Architect v'+v,14));
+        return s;
+    }
+
+    function poster(v) {
+        const s=[], acc=variantColor(v);
+        s.push(sh('Rectangle',50,50,450,650,v===5?'#000':'#fff',1,true));
+        if(v===1){s.push(sh('Rectangle',50,50,450,120,acc,0,true));}
+        else if(v===2){s.push(sh('Circle',125,200,300,300,acc,0,true));}
+        else if(v===3){for(let i=0;i<3;i++)s.push(sh('Line',50,100+i*40,450,300,acc,15,false));}
+        else if(v===4){for(let i=0;i<4;i++)s.push(sh('Rectangle',80+i*100,500,80,80,acc,0,true));}
+        else{s.push(sh('Rectangle',70,70,410,610,acc,5,false));}
+        s.push(txt(80,100,v===1||v===5?'#fff':'#000','FESTIVAL '+v,34));
+        return s;
+    }
+
+    function flowchart(v) {
+        const s=[];
+        const g='#2ecc71',b='#3574f0',o='#e67e22',r='#e74c3c';
+        const cx=400,cy=60;
+        if(v===1){
+            for(let i=0;i<3;i++)s.push(arr(cx+60,cy+50+i*120,0,70,'#888'));
+            addNode(s,cx,cy,g,'START',1); addNode(s,cx,cy+120,b,'INPUT',2);
+            addNode(s,cx,cy+240,o,'PROCESS',2); addNode(s,cx,cy+360,r,'END',1);
+        } else if(v===2){
+            addNode(s,cx,cy,g,'START',1);
+            s.push(arr(cx+60,cy+50,0,50,'#888'));
+            addNode(s,cx,cy+100,o,'IF X > 0',2);
+            s.push(arr(cx,cy+130,-100,50,'#888'));
+            s.push(arr(cx+120,cy+130,100,50,'#888'));
+            addNode(s,cx-150,cy+180,b,'TRUE',2);
+            addNode(s,cx+150,cy+180,r,'FALSE',2);
+        } else if(v===3){
+            addNode(s,cx,cy,g,'BEGIN',1);
+            s.push(sh('Line',cx-100,cy+70,320,0,'#888',2,false));
+            for(let i=0;i<3;i++){
+                s.push(arr(cx-100+i*160,cy+70,0,50,'#888'));
+                addNode(s,cx-160+i*160,cy+120,b,'TASK '+(i+1),2);
+            }
+        } else if(v===4){
+            addNode(s,cx,cy,b,'DATA',2);
+            s.push(arr(cx+60,cy+60,0,60,'#888'));
+            addNode(s,cx,cy+120,o,'REPEAT?',1);
+            s.push(arr(cx,cy+145,-100,-60,'#888'));
+            s.push(txt(cx-80,cy+110,'#666','YES',12));
+        } else {
+            addNode(s,cx,cy,g,'INIT',1); addNode(s,cx+150,cy,b,'RUN',2);
+            s.push(arr(cx+120,cy+25,30,0,'#888'));
+        }
+        return s;
+    }
+
+    function logoTemplate(v) {
+        const s=[], acc=variantColor(v), cx=350, cy=250;
+        if(v===1){
+            s.push(sh('Circle',cx-80,cy-80,160,160,'#2c3e50',8,false));
+            s.push(sh('Circle',cx-30,cy-30,60,60,acc,0,true));
+        } else if(v===2){
+            s.push(sh('Triangle',cx-60,cy-80,120,100,acc,0,true));
+            s.push(sh('Rectangle',cx-60,cy+20,120,20,acc,0,true));
+        } else if(v===3){
+            s.push(sh('Rectangle',cx-70,cy-70,140,140,'#333',4,false));
+            s.push(sh('Rectangle',cx-40,cy-40,80,80,acc,0,true));
+        } else if(v===4){
+            s.push(arr(cx,cy+60,0,-120,acc));
+        } else {
+            for(let i=0;i<3;i++) s.push(sh('Triangle',cx-80+i*20,cy-60+i*30,160-i*40,80,acc,2,false));
+        }
+        s.push(txt(cx-80,cy+130,'#000','LOGO V'+v,22));
+        return s;
+    }
+
+    function photoFrame(v) {
+        const s=[];
+        const gold='#d4af37', wood='#65432a';
+        const c = v%2===0?gold:wood;
+        s.push(sh('Rectangle',80,80,520,420,c,12,false));
+        if(v===1){
+            [[80,80],[588,80],[80,488],[588,488]].forEach(([px,py])=>s.push(sh('Circle',px-6,py-6,12,12,c,0,true)));
+        } else if(v===2){
+            s.push(sh('Rectangle',100,100,480,380,c,2,false));
+        } else if(v===3){
+            s.push(sh('Triangle',315,65,50,30,c,0,true));
+        } else if(v===4){
+            s.push(sh('Rectangle',80,440,520,60,c,0,true));
+        } else {
+            s.push(sh('Rectangle',95,95,520,420,'rgba(0,0,0,0.2)',0,true));
+        }
+        s.push(txt(260,535,c,'Photo Variant '+v,18));
+        return s;
+    }
+
+    function darkenColor(hex) {
+        const {r,g,b}=hexToRgb(hex);
+        return rgbToHex(Math.max(r-40,0),Math.max(g-40,0),Math.max(b-40,0));
+    }
+
+    // ─── PARTICLE SYSTEM ─────────────────────────────────────────────────────────
+    function spawnParticles(cx,cy) {
+        const PAL=['#00dcff','#7828dc','#ff32b4','#00ff96','#ffc800'];
+        const n = 12+Math.floor(Math.random()*8);
+        for(let i=0;i<n;i++){
+            const angle=Math.random()*Math.PI*2, speed=1.5+Math.random()*5;
+            state.particles.push({
+                x:cx, y:cy,
+                vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed,
+                size:3+Math.random()*5,
+                life:18+Math.floor(Math.random()*22),
+                maxLife:0,
+                color:PAL[Math.floor(Math.random()*PAL.length)]
+            });
+            state.particles[state.particles.length-1].maxLife=state.particles[state.particles.length-1].life;
+        }
+    }
+
+    // ─── OVERLAY ANIMATION ───────────────────────────────────────────────────────
+    function animLoop() {
+        state.tick++;
+        octx.clearRect(0,0,overlayCanvas.width,overlayCanvas.height);
+
+        // dot grid
+        const GRID=32;
+        const cols=Math.ceil(overlayCanvas.width/GRID)+1;
+        const rows=Math.ceil(overlayCanvas.height/GRID)+1;
+        const t=state.tick*0.038;
+        for(let r=0;r<rows;r++){
+            for(let c=0;c<cols;c++){
+                const idx=Math.min(r*cols+c,state.dotPhases.length-1);
+                const phase=state.dotPhases[idx]||0;
+                const pulse=(Math.sin(t+phase)*0.5+0.5);
+                const alpha=Math.floor(pulse*52+8);
+                const ratio=c/Math.max(cols-1,1);
+                const red=Math.floor(120*ratio);
+                const green=Math.floor(220-180*ratio);
+                const blue=Math.floor(255-35*ratio);
+                const sz=pulse*1.8+0.5;
+                octx.fillStyle=`rgba(${red},${green},${blue},${alpha/255})`;
+                octx.beginPath();
+                octx.arc(c*GRID,r*GRID,sz/2,0,Math.PI*2);
+                octx.fill();
+            }
+        }
+
+        // particles
+        state.particles=state.particles.filter(p=>p.life>0);
+        for(const p of state.particles){
+            const a=p.life/p.maxLife;
+            const rgb=hexToRgb(p.color);
+            octx.fillStyle=`rgba(${rgb.r},${rgb.g},${rgb.b},${a*0.82})`;
+            const sz=a*p.size;
+            octx.beginPath(); octx.arc(p.x,p.y,sz/2,0,Math.PI*2); octx.fill();
+            p.x+=p.vx; p.y+=p.vy; p.vx*=0.92; p.vy*=0.92; p.vy+=0.09; p.life--;
+        }
+
+        requestAnimationFrame(animLoop);
+    }
+    animLoop();
+
+    // ─── INIT ────────────────────────────────────────────────────────────────────
+    redraw();
+    updateStatus();
+</script>
+</body>
+</html>
