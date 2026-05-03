@@ -56,22 +56,14 @@
         .logo { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--cyan); font-weight: 700; letter-spacing: 2px; }
         .logo-sub { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-lo); margin-left: 10px; }
         .win-btns { display: flex; gap: 6px; }
-        .win-btn {
-            width: 14px; height: 14px; border-radius: 50%; border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; font-size: 8px;
-            opacity: 0.7; transition: opacity .2s;
-        }
+        .win-btn { width: 14px; height: 14px; border-radius: 50%; border: none; cursor: pointer; opacity: 0.7; transition: opacity .2s; }
         .win-btn:hover { opacity: 1; }
         .win-btn.min { background: #ffcc00; }
         .win-btn.max { background: #00c855; }
         .win-btn.cls { background: #ff3c50; }
 
         /* ── MAIN LAYOUT ── */
-        #app {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
+        #app { display: flex; flex: 1; overflow: hidden; }
 
         /* ── SIDEBAR ── */
         #sidebar {
@@ -110,17 +102,15 @@
             border: 1px solid var(--border);
             border-radius: 10px;
             color: var(--text-hi);
-            font-size: 18px;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             transition: all .15s;
             position: relative;
             flex-shrink: 0;
+            padding: 0;
         }
-        .tool-btn:hover {
-            border-color: rgba(0,220,255,.4);
-            background: rgba(0,220,255,.08);
-        }
+        .tool-btn svg { width: 22px; height: 22px; }
+        .tool-btn:hover { border-color: rgba(0,220,255,.4); background: rgba(0,220,255,.08); }
         .tool-btn.active {
             background: linear-gradient(135deg, rgba(0,220,255,.2), rgba(120,40,220,.2));
             border-color: var(--cyan);
@@ -144,12 +134,7 @@
         .tool-btn:hover .tooltip { opacity: 1; }
 
         /* ── CENTER ── */
-        #center {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+        #center { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
         /* ── FLOATBAR ── */
         #floatbar {
@@ -174,38 +159,27 @@
             cursor: pointer; flex-shrink: 0;
             transition: transform .2s, box-shadow .2s;
         }
-        .color-dot:hover { transform: scale(1.15); box-shadow: 0 0 10px currentColor; }
+        .color-dot:hover { transform: scale(1.15); }
         .bar-select {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-hi);
-            font-size: 12px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            flex-shrink: 0;
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-hi); font-size: 12px; padding: 4px 8px;
+            border-radius: 6px; cursor: pointer; flex-shrink: 0;
         }
         .bar-select:focus { outline: none; border-color: var(--cyan); }
         .bar-checkbox { display: flex; align-items: center; gap: 5px; cursor: pointer; flex-shrink: 0; }
         .bar-checkbox input { accent-color: var(--cyan); }
         .bar-checkbox span { font-size: 12px; color: var(--text-hi); }
         .ghost-btn {
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-hi);
-            font-size: 12px; font-family: 'DM Sans', sans-serif;
-            padding: 4px 12px; border-radius: 7px;
-            cursor: pointer; flex-shrink: 0;
-            transition: all .15s;
-            white-space: nowrap;
+            background: transparent; border: 1px solid transparent;
+            color: var(--text-hi); font-size: 12px; font-family: 'DM Sans', sans-serif;
+            padding: 4px 12px; border-radius: 7px; cursor: pointer; flex-shrink: 0;
+            transition: all .15s; white-space: nowrap;
         }
         .ghost-btn:hover { border-color: rgba(0,220,255,.4); background: rgba(0,220,255,.08); }
         .glow-btn {
-            padding: 5px 14px; border-radius: 8px;
-            border: none; cursor: pointer;
+            padding: 5px 14px; border-radius: 8px; border: none; cursor: pointer;
             font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif;
-            color: white; flex-shrink: 0;
-            transition: all .2s; white-space: nowrap;
+            color: white; flex-shrink: 0; transition: all .2s; white-space: nowrap;
         }
         .glow-btn:hover { filter: brightness(1.2); }
         .glow-save { background: linear-gradient(135deg, var(--green), #00c876); }
@@ -216,107 +190,72 @@
         .template-btn {
             background: var(--bg-card); border: 1px solid var(--border);
             color: var(--text-hi); font-size: 12px; font-family: 'DM Sans', sans-serif;
-            padding: 5px 12px; border-radius: 7px; cursor: pointer;
-            transition: all .15s;
+            padding: 5px 12px; border-radius: 7px; cursor: pointer; transition: all .15s;
         }
         .template-btn:hover { border-color: rgba(0,220,255,.4); }
         .template-dropdown {
             position: absolute; top: 110%; left: 0;
             background: var(--bg-surface); border: 1px solid var(--border);
-            border-radius: 10px; min-width: 160px;
-            z-index: 200; display: none;
-            box-shadow: 0 8px 32px rgba(0,0,0,.5);
-            overflow: hidden;
+            border-radius: 10px; min-width: 180px; z-index: 200; display: none;
+            box-shadow: 0 8px 32px rgba(0,0,0,.5); overflow: hidden;
         }
         .template-dropdown.open { display: block; }
         .tpl-cat {
-            padding: 8px 14px 4px;
-            font-size: 10px; color: var(--text-lo);
-            font-family: 'Space Mono', monospace;
-            letter-spacing: 1px;
+            padding: 8px 14px 4px; font-size: 10px; color: var(--text-lo);
+            font-family: 'Space Mono', monospace; letter-spacing: 1px;
             border-bottom: 1px solid var(--border);
         }
-        .tpl-group { position: relative; }
         .tpl-group-lbl {
-            padding: 7px 14px;
-            font-size: 12px; color: var(--text-hi);
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 14px; font-size: 12px; color: var(--text-hi);
+            cursor: pointer; display: flex; align-items: center; justify-content: space-between;
             transition: background .15s;
         }
         .tpl-group-lbl:hover { background: rgba(0,220,255,.08); }
-        .tpl-sub {
-            display: none; background: var(--bg-card);
-            border-top: 1px solid var(--border);
-        }
+        .tpl-sub { display: none; background: var(--bg-card); border-top: 1px solid var(--border); }
         .tpl-sub.open { display: block; }
         .tpl-item {
-            padding: 6px 24px;
-            font-size: 12px; color: var(--text-lo);
-            cursor: pointer;
-            transition: all .15s;
+            padding: 6px 24px; font-size: 12px; color: var(--text-lo);
+            cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 8px;
         }
         .tpl-item:hover { color: var(--cyan); background: rgba(0,220,255,.05); }
+        .tpl-thumb {
+            width: 32px; height: 22px; border-radius: 3px; flex-shrink: 0;
+            background: var(--bg-surface); border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .tpl-thumb svg { width: 100%; height: 100%; }
 
         /* ── CANVAS AREA ── */
-        #canvas-wrap {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            background: #08090e;
-        }
-        #main-canvas {
-            position: absolute; top: 0; left: 0;
-            cursor: crosshair;
-        }
-        #overlay-canvas {
-            position: absolute; top: 0; left: 0;
-            pointer-events: none;
-        }
+        #canvas-wrap { flex: 1; position: relative; overflow: hidden; background: #08090e; }
+        #main-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
+        #overlay-canvas { position: absolute; top: 0; left: 0; pointer-events: none; }
 
         /* ── STATUS BAR ── */
         #statusbar {
-            height: 30px;
-            background: var(--bg-panel);
-            border-top: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            gap: 20px;
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            color: var(--text-lo);
-            flex-shrink: 0;
+            height: 30px; background: var(--bg-panel); border-top: 1px solid var(--border);
+            display: flex; align-items: center; padding: 0 16px; gap: 20px;
+            font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-lo); flex-shrink: 0;
         }
-        #status-coords { color: var(--text-lo); }
-        #status-shapes { color: var(--text-lo); }
-        #status-tool   { color: var(--cyan); }
-        #status-msg    { color: var(--text-lo); margin-left: auto; }
+        #status-tool { color: var(--cyan); }
+        #status-msg  { color: var(--text-lo); margin-left: auto; }
 
-        /* Text input modal */
+        /* Text modal */
         #text-modal {
-            display: none;
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,.6);
-            z-index: 500;
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,.6); z-index: 500;
             align-items: center; justify-content: center;
         }
         #text-modal.open { display: flex; }
         .modal-box {
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 24px;
-            min-width: 340px;
+            background: var(--bg-surface); border: 1px solid var(--border);
+            border-radius: 14px; padding: 24px; min-width: 340px;
             box-shadow: 0 20px 60px rgba(0,0,0,.6);
         }
         .modal-box h3 { font-size: 14px; color: var(--text-hi); margin-bottom: 14px; }
         .modal-box input {
-            width: 100%;
-            background: var(--bg-card); border: 1px solid var(--border);
+            width: 100%; background: var(--bg-card); border: 1px solid var(--border);
             color: var(--text-hi); font-size: 14px; font-family: 'DM Sans', sans-serif;
-            padding: 10px 14px; border-radius: 8px;
-            outline: none; margin-bottom: 14px;
+            padding: 10px 14px; border-radius: 8px; outline: none; margin-bottom: 14px;
             transition: border-color .15s;
         }
         .modal-box input:focus { border-color: var(--cyan); }
@@ -324,41 +263,104 @@
         .modal-ok { background: var(--cyan); color: #000; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
         .modal-cancel { background: var(--bg-card); color: var(--text-hi); border: 1px solid var(--border); padding: 8px 20px; border-radius: 8px; cursor: pointer; }
 
-        /* Color picker hidden input */
         #color-input, #bg-color-input { display: none; }
     </style>
 </head>
 <body>
 
-<!-- TITLEBAR -->
 <div id="titlebar">
     <div style="display:flex;align-items:center">
         <span class="logo">VECTOR·STUDIO</span>
         <span class="logo-sub">/ WEB EDITION</span>
     </div>
     <div class="win-btns">
-        <div class="win-btn min" title="Мінімізувати"></div>
-        <div class="win-btn max" title="Розгорнути"></div>
-        <div class="win-btn cls" title="Закрити"></div>
+        <div class="win-btn min"></div>
+        <div class="win-btn max"></div>
+        <div class="win-btn cls"></div>
     </div>
 </div>
 
-<!-- APP -->
 <div id="app">
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR with SVG icons -->
     <div id="sidebar">
         <div class="section-lbl">DRAW</div>
-        <button class="tool-btn" data-tool="Select" title="Select">⊹<span class="tooltip">Select</span></button>
-        <button class="tool-btn active" data-tool="Rectangle" title="Rectangle">▭<span class="tooltip">Rectangle</span></button>
-        <button class="tool-btn" data-tool="Circle" title="Circle">◯<span class="tooltip">Circle</span></button>
-        <button class="tool-btn" data-tool="Triangle" title="Triangle">△<span class="tooltip">Triangle</span></button>
-        <button class="tool-btn" data-tool="Line" title="Line">╱<span class="tooltip">Line</span></button>
-        <button class="tool-btn" data-tool="Arrow" title="Arrow">↗<span class="tooltip">Arrow</span></button>
-        <button class="tool-btn" data-tool="Pencil" title="Pencil">✏<span class="tooltip">Pencil</span></button>
-        <button class="tool-btn" data-tool="Eraser" title="Eraser">⌫<span class="tooltip">Eraser</span></button>
+
+        <button class="tool-btn" data-tool="Select">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4l7 18 3-7 7-3z"/><path d="M13 13l5 5"/>
+            </svg>
+            <span class="tooltip">Select / Move</span>
+        </button>
+
+        <button class="tool-btn active" data-tool="Rectangle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="6" width="18" height="12" rx="1"/>
+            </svg>
+            <span class="tooltip">Rectangle</span>
+        </button>
+
+        <button class="tool-btn" data-tool="Circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="9"/>
+            </svg>
+            <span class="tooltip">Circle / Ellipse</span>
+        </button>
+
+        <button class="tool-btn" data-tool="Triangle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 4L3 20h18z"/>
+            </svg>
+            <span class="tooltip">Triangle</span>
+        </button>
+
+        <button class="tool-btn" data-tool="Line">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="4" y1="20" x2="20" y2="4"/>
+            </svg>
+            <span class="tooltip">Line</span>
+        </button>
+
+        <button class="tool-btn" data-tool="Arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="19" x2="19" y2="5"/>
+                <polyline points="10,5 19,5 19,14"/>
+            </svg>
+            <span class="tooltip">Arrow</span>
+        </button>
+
+        <button class="tool-btn" data-tool="Pencil">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.85 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                <path d="m15 5 4 4"/>
+            </svg>
+            <span class="tooltip">Pencil</span>
+        </button>
+
+        <button class="tool-btn" data-tool="Eraser">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/>
+                <path d="M22 21H7"/><path d="m5 11 9 9"/>
+            </svg>
+            <span class="tooltip">Eraser</span>
+        </button>
+
         <div class="section-lbl">MORE</div>
-        <button class="tool-btn" data-tool="Text" title="Text">T<span class="tooltip">Text</span></button>
-        <button class="tool-btn" data-tool="Picker" title="Picker">⧩<span class="tooltip">Picker</span></button>
+
+        <button class="tool-btn" data-tool="Text">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="4,7 4,4 20,4 20,7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>
+            </svg>
+            <span class="tooltip">Text</span>
+        </button>
+
+        <button class="tool-btn" data-tool="Picker">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 2v1"/><path d="M15 2v1"/>
+                <path d="M20 14.5a8.5 8.5 0 1 0-17 0c0 3.5 2 6.5 4.5 8.5h8C18 21 20 18 20 14.5z"/>
+                <path d="M12 11v4"/><path d="M10 13h4"/>
+            </svg>
+            <span class="tooltip">Color Picker</span>
+        </button>
     </div>
 
     <!-- CENTER -->
@@ -391,54 +393,134 @@
                 <button class="template-btn" id="tpl-btn">▾ Вибрати</button>
                 <div class="template-dropdown" id="tpl-dropdown">
                     <div class="tpl-cat">TEMPLATES</div>
-                    <div class="tpl-group">
-                        <div class="tpl-group-lbl" data-cat="Візитка">Візитка <span>›</span></div>
-                        <div class="tpl-sub" id="sub-Візитка">
-                            <div class="tpl-item" data-cat="Візитка" data-v="1">Варіант 1</div>
-                            <div class="tpl-item" data-cat="Візитка" data-v="2">Варіант 2</div>
-                            <div class="tpl-item" data-cat="Візитка" data-v="3">Варіант 3</div>
-                            <div class="tpl-item" data-cat="Візитка" data-v="4">Варіант 4</div>
-                            <div class="tpl-item" data-cat="Візитка" data-v="5">Варіант 5</div>
+                    <!-- Візитка -->
+                    <div class="tpl-group-lbl" data-cat="Візитка">
+                        <span>💼 Візитка</span><span>›</span>
+                    </div>
+                    <div class="tpl-sub" id="sub-Візитка">
+                        <div class="tpl-item" data-cat="Візитка" data-v="1">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect width="32" height="22" fill="#23262d"/><rect width="4" height="22" fill="#3574f0"/><rect x="6" y="8" width="16" height="2" rx="1" fill="#fff" opacity=".7"/><rect x="6" y="12" width="10" height="1.5" rx="1" fill="#3574f0" opacity=".8"/></svg></div>
+                            Варіант 1
+                        </div>
+                        <div class="tpl-item" data-cat="Візитка" data-v="2">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect width="32" height="22" fill="#1a1a2e"/><polygon points="32,0 32,10 22,0" fill="#e74c3c" opacity=".9"/><rect x="4" y="8" width="16" height="2" rx="1" fill="#fff" opacity=".7"/><rect x="4" y="12" width="10" height="1.5" rx="1" fill="#e74c3c" opacity=".8"/></svg></div>
+                            Варіант 2
+                        </div>
+                        <div class="tpl-item" data-cat="Візитка" data-v="3">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect width="32" height="22" fill="#fff"/><rect x="0" y="11" width="32" height="1" fill="#9b59b6"/><rect x="4" y="5" width="16" height="2" rx="1" fill="#000" opacity=".7"/><rect x="4" y="14" width="10" height="1.5" rx="1" fill="#9b59b6" opacity=".8"/></svg></div>
+                            Варіант 3
+                        </div>
+                        <div class="tpl-item" data-cat="Візитка" data-v="4">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect width="32" height="22" fill="#23262d"/><circle cx="28" cy="4" r="6" fill="#1abc9c" opacity=".8"/><rect x="4" y="8" width="16" height="2" rx="1" fill="#fff" opacity=".7"/><rect x="4" y="12" width="10" height="1.5" rx="1" fill="#1abc9c" opacity=".8"/></svg></div>
+                            Варіант 4
+                        </div>
+                        <div class="tpl-item" data-cat="Візитка" data-v="5">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect width="32" height="22" fill="#fff"/><rect x="1" y="1" width="30" height="20" rx="1" fill="none" stroke="#f1c40f" stroke-width="1.5"/><rect x="5" y="7" width="16" height="2" rx="1" fill="#000" opacity=".7"/><rect x="5" y="12" width="10" height="1.5" rx="1" fill="#f1c40f"/></svg></div>
+                            Варіант 5
                         </div>
                     </div>
-                    <div class="tpl-group">
-                        <div class="tpl-group-lbl" data-cat="Постер">Постер <span>›</span></div>
-                        <div class="tpl-sub" id="sub-Постер">
-                            <div class="tpl-item" data-cat="Постер" data-v="1">Варіант 1</div>
-                            <div class="tpl-item" data-cat="Постер" data-v="2">Варіант 2</div>
-                            <div class="tpl-item" data-cat="Постер" data-v="3">Варіант 3</div>
-                            <div class="tpl-item" data-cat="Постер" data-v="4">Варіант 4</div>
-                            <div class="tpl-item" data-cat="Постер" data-v="5">Варіант 5</div>
+                    <!-- Постер -->
+                    <div class="tpl-group-lbl" data-cat="Постер">
+                        <span>🖼 Постер</span><span>›</span>
+                    </div>
+                    <div class="tpl-sub" id="sub-Постер">
+                        <div class="tpl-item" data-cat="Постер" data-v="1">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect width="32" height="22" fill="#fff"/><rect width="32" height="7" fill="#3574f0"/><rect x="4" y="2" width="14" height="2" rx="1" fill="#fff"/><rect x="4" y="11" width="20" height="1.5" rx="1" fill="#ccc"/><rect x="4" y="14" width="16" height="1.5" rx="1" fill="#ccc"/></svg></div>
+                            Варіант 1
+                        </div>
+                        <div class="tpl-item" data-cat="Постер" data-v="2">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect width="32" height="22" fill="#fff"/><circle cx="16" cy="13" r="8" fill="#e74c3c" opacity=".7"/><rect x="4" y="3" width="20" height="3" rx="1" fill="#000" opacity=".7"/></svg></div>
+                            Варіант 2
+                        </div>
+                        <div class="tpl-item" data-cat="Постер" data-v="3">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect width="32" height="22" fill="#fff"/><line x1="0" y1="6" x2="32" y2="10" stroke="#9b59b6" stroke-width="3"/><line x1="0" y1="11" x2="32" y2="15" stroke="#9b59b6" stroke-width="3"/><rect x="4" y="1" width="20" height="3" rx="1" fill="#000" opacity=".6"/></svg></div>
+                            Варіант 3
+                        </div>
+                        <div class="tpl-item" data-cat="Постер" data-v="4">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect width="32" height="22" fill="#fff"/><rect x="2" y="14" width="6" height="6" rx="1" fill="#1abc9c"/><rect x="10" y="14" width="6" height="6" rx="1" fill="#1abc9c" opacity=".7"/><rect x="18" y="14" width="6" height="6" rx="1" fill="#1abc9c" opacity=".5"/><rect x="4" y="2" width="18" height="3" rx="1" fill="#000" opacity=".6"/></svg></div>
+                            Варіант 4
+                        </div>
+                        <div class="tpl-item" data-cat="Постер" data-v="5">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect width="32" height="22" fill="#000"/><rect x="1" y="1" width="30" height="20" rx="1" fill="none" stroke="#f1c40f" stroke-width="1.5"/><rect x="5" y="4" width="18" height="3" rx="1" fill="#fff"/></svg></div>
+                            Варіант 5
                         </div>
                     </div>
-                    <div class="tpl-group">
-                        <div class="tpl-group-lbl" data-cat="Блок-схема">Блок-схема <span>›</span></div>
-                        <div class="tpl-sub" id="sub-Блок-схема">
-                            <div class="tpl-item" data-cat="Блок-схема" data-v="1">Варіант 1</div>
-                            <div class="tpl-item" data-cat="Блок-схема" data-v="2">Варіант 2</div>
-                            <div class="tpl-item" data-cat="Блок-схема" data-v="3">Варіант 3</div>
-                            <div class="tpl-item" data-cat="Блок-схема" data-v="4">Варіант 4</div>
-                            <div class="tpl-item" data-cat="Блок-схема" data-v="5">Варіант 5</div>
+                    <!-- Блок-схема -->
+                    <div class="tpl-group-lbl" data-cat="Блок-схема">
+                        <span>📊 Блок-схема</span><span>›</span>
+                    </div>
+                    <div class="tpl-sub" id="sub-Блок-схема">
+                        <div class="tpl-item" data-cat="Блок-схема" data-v="1">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><circle cx="16" cy="3" r="2.5" fill="#2ecc71"/><rect x="11" y="8" width="10" height="5" rx="1" fill="#3574f0"/><rect x="11" y="16" width="10" height="5" rx="1" fill="#e67e22"/><line x1="16" y1="5.5" x2="16" y2="8" stroke="#888" stroke-width="1"/><line x1="16" y1="13" x2="16" y2="16" stroke="#888" stroke-width="1"/></svg></div>
+                            Лінійна
+                        </div>
+                        <div class="tpl-item" data-cat="Блок-схема" data-v="2">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><circle cx="16" cy="2" r="2" fill="#2ecc71"/><polygon points="16,7 10,13 22,13" fill="#e67e22"/><rect x="3" y="15" width="8" height="5" rx="1" fill="#3574f0"/><rect x="21" y="15" width="8" height="5" rx="1" fill="#e74c3c"/><line x1="16" y1="4" x2="16" y2="7" stroke="#888" stroke-width="1"/><line x1="10" y1="13" x2="7" y2="15" stroke="#888" stroke-width="1"/><line x1="22" y1="13" x2="25" y2="15" stroke="#888" stroke-width="1"/></svg></div>
+                            З розгалуженням
+                        </div>
+                        <div class="tpl-item" data-cat="Блок-схема" data-v="3">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><circle cx="16" cy="2" r="2" fill="#2ecc71"/><rect x="3" y="10" width="8" height="5" rx="1" fill="#3574f0"/><rect x="12" y="10" width="8" height="5" rx="1" fill="#3574f0"/><rect x="21" y="10" width="8" height="5" rx="1" fill="#3574f0"/><line x1="3" y1="10" x2="29" y2="10" stroke="#888" stroke-width="1"/><line x1="16" y1="4" x2="16" y2="10" stroke="#888" stroke-width="1"/></svg></div>
+                            Паралельні задачі
+                        </div>
+                        <div class="tpl-item" data-cat="Блок-схема" data-v="4">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect x="10" y="1" width="12" height="6" rx="1" fill="#3574f0"/><polygon points="16,10 10,16 22,16" fill="#e67e22"/><path d="M10,16 Q4,16 4,10 Q4,4 10,4" fill="none" stroke="#888" stroke-width="1"/><line x1="16" y1="7" x2="16" y2="10" stroke="#888" stroke-width="1"/></svg></div>
+                            Цикл
+                        </div>
+                        <div class="tpl-item" data-cat="Блок-схема" data-v="5">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><circle cx="8" cy="4" r="3" fill="#2ecc71"/><rect x="17" y="1" width="12" height="6" rx="1" fill="#3574f0"/><line x1="11" y1="4" x2="17" y2="4" stroke="#888" stroke-width="1" marker-end="url(#a)"/></svg></div>
+                            Простий
                         </div>
                     </div>
-                    <div class="tpl-group">
-                        <div class="tpl-group-lbl" data-cat="Логотип">Логотип <span>›</span></div>
-                        <div class="tpl-sub" id="sub-Логотип">
-                            <div class="tpl-item" data-cat="Логотип" data-v="1">Варіант 1</div>
-                            <div class="tpl-item" data-cat="Логотип" data-v="2">Варіант 2</div>
-                            <div class="tpl-item" data-cat="Логотип" data-v="3">Варіант 3</div>
-                            <div class="tpl-item" data-cat="Логотип" data-v="4">Варіант 4</div>
-                            <div class="tpl-item" data-cat="Логотип" data-v="5">Варіант 5</div>
+                    <!-- Логотип -->
+                    <div class="tpl-group-lbl" data-cat="Логотип">
+                        <span>✦ Логотип</span><span>›</span>
+                    </div>
+                    <div class="tpl-sub" id="sub-Логотип">
+                        <div class="tpl-item" data-cat="Логотип" data-v="1">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><circle cx="16" cy="11" r="9" fill="none" stroke="#2c3e50" stroke-width="2"/><circle cx="16" cy="11" r="4" fill="#3574f0"/></svg></div>
+                            Варіант 1
+                        </div>
+                        <div class="tpl-item" data-cat="Логотип" data-v="2">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><polygon points="16,2 8,18 24,18" fill="#e74c3c"/><rect x="10" y="18" width="12" height="2" fill="#e74c3c"/></svg></div>
+                            Варіант 2
+                        </div>
+                        <div class="tpl-item" data-cat="Логотип" data-v="3">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect x="7" y="3" width="18" height="16" rx="1" fill="none" stroke="#333" stroke-width="2"/><rect x="11" y="7" width="10" height="8" fill="#9b59b6"/></svg></div>
+                            Варіант 3
+                        </div>
+                        <div class="tpl-item" data-cat="Логотип" data-v="4">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><line x1="16" y1="19" x2="16" y2="3" stroke="#1abc9c" stroke-width="2.5" stroke-linecap="round" marker-end="url(#b)"/><polyline points="12,7 16,3 20,7" fill="none" stroke="#1abc9c" stroke-width="2"/></svg></div>
+                            Варіант 4
+                        </div>
+                        <div class="tpl-item" data-cat="Логотип" data-v="5">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><polygon points="16,2 6,18 26,18" fill="none" stroke="#f1c40f" stroke-width="1.5"/><polygon points="16,5 9,17 23,17" fill="none" stroke="#f1c40f" stroke-width="1" opacity=".5"/></svg></div>
+                            Варіант 5
                         </div>
                     </div>
-                    <div class="tpl-group">
-                        <div class="tpl-group-lbl" data-cat="Рамка">Рамка <span>›</span></div>
-                        <div class="tpl-sub" id="sub-Рамка">
-                            <div class="tpl-item" data-cat="Рамка" data-v="1">Варіант 1</div>
-                            <div class="tpl-item" data-cat="Рамка" data-v="2">Варіант 2</div>
-                            <div class="tpl-item" data-cat="Рамка" data-v="3">Варіант 3</div>
-                            <div class="tpl-item" data-cat="Рамка" data-v="4">Варіант 4</div>
-                            <div class="tpl-item" data-cat="Рамка" data-v="5">Варіант 5</div>
+                    <!-- Рамка -->
+                    <div class="tpl-group-lbl" data-cat="Рамка">
+                        <span>🖼 Рамка</span><span>›</span>
+                    </div>
+                    <div class="tpl-sub" id="sub-Рамка">
+                        <div class="tpl-item" data-cat="Рамка" data-v="1">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect x="1" y="1" width="30" height="20" fill="none" stroke="#65432a" stroke-width="2.5"/><circle cx="1" cy="1" r="1.5" fill="#65432a"/><circle cx="31" cy="1" r="1.5" fill="#65432a"/><circle cx="1" cy="21" r="1.5" fill="#65432a"/><circle cx="31" cy="21" r="1.5" fill="#65432a"/></svg></div>
+                            Класична
+                        </div>
+                        <div class="tpl-item" data-cat="Рамка" data-v="2">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect x="1" y="1" width="30" height="20" fill="none" stroke="#d4af37" stroke-width="2.5"/><rect x="3" y="3" width="26" height="16" fill="none" stroke="#d4af37" stroke-width="0.8"/></svg></div>
+                            Подвійна
+                        </div>
+                        <div class="tpl-item" data-cat="Рамка" data-v="3">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect x="1" y="1" width="30" height="20" fill="none" stroke="#65432a" stroke-width="2.5"/><polygon points="16,0 18,2 16,4 14,2" fill="#65432a"/></svg></div>
+                            З декором
+                        </div>
+                        <div class="tpl-item" data-cat="Рамка" data-v="4">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect x="1" y="1" width="30" height="20" fill="none" stroke="#d4af37" stroke-width="2.5"/><rect x="1" y="15" width="30" height="6" fill="#d4af37" opacity=".3"/></svg></div>
+                            З підписом
+                        </div>
+                        <div class="tpl-item" data-cat="Рамка" data-v="5">
+                            <div class="tpl-thumb"><svg viewBox="0 0 32 22"><rect x="1" y="1" width="30" height="20" fill="none" stroke="#65432a" stroke-width="2.5"/><rect x="2" y="2" width="28" height="18" fill="rgba(0,0,0,.15)"/></svg></div>
+                            З тінню
                         </div>
                     </div>
                 </div>
@@ -480,61 +562,51 @@
     </div>
 </div>
 
-<!-- Hidden color inputs -->
 <input type="color" id="color-input" value="#00dcff">
 <input type="color" id="bg-color-input" value="#06080f">
 
 <script>
     // ─── STATE ───────────────────────────────────────────────────────────────────
     const state = {
-        tool: 'Rectangle',
-        color: '#00dcff',
-        bgColor: '#06080f',
-        strokeWidth: 2,
-        filled: false,
-        showGrid: false,
-        shapes: [],
-        undoStack: [],
-        redoStack: [],
-        currentShape: null,
-        selectedShape: null,
-        dragStart: { x: 0, y: 0 },
-        textPending: null,
-        fontSize: 18,
-        particles: [],
-        tick: 0,
-        dotPhases: [],
+        tool: 'Rectangle', color: '#00dcff', bgColor: '#06080f',
+        strokeWidth: 2, filled: false, showGrid: false,
+        shapes: [], undoStack: [], redoStack: [],
+        currentShape: null, selectedShape: null,
+        dragStart: { x:0, y:0 }, textPending: null,
+        fontSize: 18, particles: [], tick: 0, dotPhases: [],
     };
 
-    // ─── CANVAS SETUP ────────────────────────────────────────────────────────────
-    const wrap      = document.getElementById('canvas-wrap');
+    // ─── CANVAS ──────────────────────────────────────────────────────────────────
+    const wrap = document.getElementById('canvas-wrap');
     const mainCanvas = document.getElementById('main-canvas');
     const overlayCanvas = document.getElementById('overlay-canvas');
-    const ctx   = mainCanvas.getContext('2d');
-    const octx  = overlayCanvas.getContext('2d');
+    const ctx  = mainCanvas.getContext('2d');
+    const octx = overlayCanvas.getContext('2d');
 
     function resizeCanvas() {
         const w = wrap.clientWidth, h = wrap.clientHeight;
         mainCanvas.width = overlayCanvas.width = w;
         mainCanvas.height = overlayCanvas.height = h;
-        // init dot phases
         const cols = Math.ceil(w/32)+1, rows = Math.ceil(h/32)+1;
-        state.dotPhases = Array.from({length: cols*rows}, () => Math.random()*6.28);
+        state.dotPhases = Array.from({length:cols*rows}, ()=>Math.random()*6.28);
         redraw();
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // ─── COLORS ──────────────────────────────────────────────────────────────────
+    // ─── COLOR HELPERS ───────────────────────────────────────────────────────────
     function hexToRgb(hex) {
-        const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
-        return {r,g,b};
+        return { r: parseInt(hex.slice(1,3),16), g: parseInt(hex.slice(3,5),16), b: parseInt(hex.slice(5,7),16) };
     }
     function rgbToHex(r,g,b) {
-        return '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+        return '#'+[r,g,b].map(v=>v.toString(16).padStart(2,'0')).join('');
+    }
+    function darkenColor(hex, amt=40) {
+        const {r,g,b}=hexToRgb(hex);
+        return rgbToHex(Math.max(r-amt,0),Math.max(g-amt,0),Math.max(b-amt,0));
     }
     const VARIANT_COLORS = ['#3574f0','#e74c3c','#9b59b6','#1abc9c','#f1c40f'];
-    function variantColor(v) { return VARIANT_COLORS[(v-1)%5]; }
+    function vc(v) { return VARIANT_COLORS[(v-1)%5]; }
 
     // ─── UNDO/REDO ────────────────────────────────────────────────────────────────
     function saveUndo() {
@@ -546,149 +618,112 @@
         if (!state.undoStack.length) return;
         state.redoStack.push(JSON.parse(JSON.stringify(state.shapes)));
         state.shapes = state.undoStack.pop();
-        state.selectedShape = null;
-        redraw(); updateStatus();
+        state.selectedShape = null; redraw(); updateStatus();
     }
     function redo() {
         if (!state.redoStack.length) return;
         state.undoStack.push(JSON.parse(JSON.stringify(state.shapes)));
-        state.shapes = state.redoStack.pop();
-        redraw(); updateStatus();
+        state.shapes = state.redoStack.pop(); redraw(); updateStatus();
     }
 
-    // ─── SHAPE DATA ──────────────────────────────────────────────────────────────
-    function makeShape(type, x, y) {
-        return { type, x, y, w: 0, h: 0,
-            color: state.color, stroke: state.strokeWidth,
-            filled: state.filled, selected: false,
-            points: (type==='Pencil'||type==='Eraser') ? [{x,y}] : null,
-            text: null, fontSize: state.fontSize };
+    // ─── SHAPES ──────────────────────────────────────────────────────────────────
+    function makeShape(type,x,y) {
+        return { type,x,y,w:0,h:0, color:state.color, stroke:state.strokeWidth,
+            filled:state.filled, selected:false,
+            points:(type==='Pencil'||type==='Eraser')?[{x,y}]:null,
+            text:null, fontSize:state.fontSize };
     }
 
-    // ─── DRAW ────────────────────────────────────────────────────────────────────
     function redraw() {
-        ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
-        // background
+        ctx.clearRect(0,0,mainCanvas.width,mainCanvas.height);
         ctx.fillStyle = state.bgColor;
-        ctx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
+        ctx.fillRect(0,0,mainCanvas.width,mainCanvas.height);
         if (state.showGrid) drawGrid();
-        for (const s of state.shapes) drawShape(ctx, s);
+        for (const s of state.shapes) drawShape(ctx,s);
     }
 
     function drawGrid() {
-        ctx.strokeStyle = 'rgba(200,210,230,.18)';
+        ctx.strokeStyle = 'rgba(200,210,230,.15)';
         ctx.lineWidth = 1;
-        const step = 25;
-        for (let x = 0; x < mainCanvas.width; x += step) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,mainCanvas.height); ctx.stroke(); }
-        for (let y = 0; y < mainCanvas.height; y += step) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(mainCanvas.width,y); ctx.stroke(); }
+        for (let x=0;x<mainCanvas.width;x+=25) { ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,mainCanvas.height);ctx.stroke(); }
+        for (let y=0;y<mainCanvas.height;y+=25) { ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(mainCanvas.width,y);ctx.stroke(); }
     }
 
-    function drawShape(c, s) {
+    function drawShape(c,s) {
         c.save();
-        c.strokeStyle = s.color;
-        c.fillStyle = s.color;
-        c.lineWidth = s.stroke || 2;
-        c.lineCap = 'round';
-        c.lineJoin = 'round';
-
-        const x = s.x, y = s.y, w = s.w, h = s.h;
-
+        c.strokeStyle = s.color; c.fillStyle = s.color;
+        c.lineWidth = s.stroke||2; c.lineCap='round'; c.lineJoin='round';
+        const {x,y,w,h} = s;
         switch(s.type) {
             case 'Rectangle':
                 if (s.filled) {
-                    const grd = c.createLinearGradient(x,y,x,y+h);
-                    const rgb = hexToRgb(s.color);
-                    grd.addColorStop(0, s.color);
-                    grd.addColorStop(1, `rgb(${Math.max(rgb.r-40,0)},${Math.max(rgb.g-40,0)},${Math.max(rgb.b-40,0)})`);
-                    c.fillStyle = grd;
-                    c.fillRect(x,y,w,h);
-                } else {
-                    c.strokeRect(x,y,w,h);
-                }
+                    const grd=c.createLinearGradient(x,y,x,y+h);
+                    grd.addColorStop(0,s.color); grd.addColorStop(1,darkenColor(s.color));
+                    c.fillStyle=grd; c.fillRect(x,y,w,h);
+                } else c.strokeRect(x,y,w,h);
                 break;
             case 'Circle': {
-                const cx2 = x+w/2, cy2 = y+h/2, rx = Math.abs(w/2), ry = Math.abs(h/2);
-                c.beginPath();
-                c.ellipse(cx2, cy2, rx||1, ry||1, 0, 0, Math.PI*2);
-                if (s.filled) c.fill(); else c.stroke();
-                break;
+                const cx=x+w/2,cy=y+h/2,rx=Math.abs(w/2)||1,ry=Math.abs(h/2)||1;
+                c.beginPath(); c.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);
+                if (s.filled) c.fill(); else c.stroke(); break;
             }
             case 'Triangle': {
-                const px = [x+w/2, x, x+w];
-                const py = [y, y+h, y+h];
-                c.beginPath();
-                c.moveTo(px[0],py[0]); c.lineTo(px[1],py[1]); c.lineTo(px[2],py[2]); c.closePath();
-                if (s.filled) c.fill(); else c.stroke();
-                break;
+                c.beginPath(); c.moveTo(x+w/2,y); c.lineTo(x,y+h); c.lineTo(x+w,y+h); c.closePath();
+                if (s.filled) c.fill(); else c.stroke(); break;
             }
             case 'Line':
-                c.beginPath(); c.moveTo(x,y); c.lineTo(x+w,y+h); c.stroke();
-                break;
+                c.beginPath(); c.moveTo(x,y); c.lineTo(x+w,y+h); c.stroke(); break;
             case 'Arrow': {
                 c.beginPath(); c.moveTo(x,y); c.lineTo(x+w,y+h); c.stroke();
-                const angle = Math.atan2(h,w), headLen = 18, spread = Math.PI/7;
-                const tx = x+w, ty = y+h;
+                const ang=Math.atan2(h,w),hl=18,sp=Math.PI/7,tx=x+w,ty=y+h;
                 c.beginPath();
-                c.moveTo(tx, ty);
-                c.lineTo(tx - headLen*Math.cos(angle-spread), ty - headLen*Math.sin(angle-spread));
-                c.moveTo(tx, ty);
-                c.lineTo(tx - headLen*Math.cos(angle+spread), ty - headLen*Math.sin(angle+spread));
-                c.stroke();
-                break;
+                c.moveTo(tx,ty); c.lineTo(tx-hl*Math.cos(ang-sp),ty-hl*Math.sin(ang-sp));
+                c.moveTo(tx,ty); c.lineTo(tx-hl*Math.cos(ang+sp),ty-hl*Math.sin(ang+sp));
+                c.stroke(); break;
             }
             case 'Pencil':
-                if (!s.points || s.points.length < 2) break;
-                c.beginPath(); c.moveTo(s.points[0].x, s.points[0].y);
-                for (let i=1;i<s.points.length;i++) c.lineTo(s.points[i].x, s.points[i].y);
-                c.stroke();
-                break;
+                if (!s.points||s.points.length<2) break;
+                c.beginPath(); c.moveTo(s.points[0].x,s.points[0].y);
+                for (let i=1;i<s.points.length;i++) c.lineTo(s.points[i].x,s.points[i].y);
+                c.stroke(); break;
             case 'Eraser':
-                if (!s.points || s.points.length < 2) break;
-                c.strokeStyle = state.bgColor;
-                c.lineWidth = (s.stroke||2)*4+8;
-                c.beginPath(); c.moveTo(s.points[0].x, s.points[0].y);
-                for (let i=1;i<s.points.length;i++) c.lineTo(s.points[i].x, s.points[i].y);
-                c.stroke();
-                break;
+                if (!s.points||s.points.length<2) break;
+                c.strokeStyle=state.bgColor; c.lineWidth=(s.stroke||2)*4+8;
+                c.beginPath(); c.moveTo(s.points[0].x,s.points[0].y);
+                for (let i=1;i<s.points.length;i++) c.lineTo(s.points[i].x,s.points[i].y);
+                c.stroke(); break;
             case 'Text':
-                c.fillStyle = s.color;
-                c.font = `${s.fontSize||18}px 'DM Sans', sans-serif`;
-                c.fillText(s.text||'', x, y + (s.fontSize||18));
-                break;
+                c.fillStyle=s.color; c.font=`${s.fontSize||18}px 'DM Sans',sans-serif`;
+                c.fillText(s.text||'',x,y+(s.fontSize||18)); break;
         }
-
-        if (s.selected) drawHandles(c, s);
+        if (s.selected) drawHandles(c,s);
         c.restore();
     }
 
-    function drawHandles(c, s) {
+    function drawHandles(c,s) {
         let x1,y1,x2,y2;
         if (s.type==='Pencil'||s.type==='Eraser') {
-            const xs = s.points.map(p=>p.x), ys = s.points.map(p=>p.y);
+            const xs=s.points.map(p=>p.x),ys=s.points.map(p=>p.y);
             x1=Math.min(...xs);y1=Math.min(...ys);x2=Math.max(...xs);y2=Math.max(...ys);
         } else {
-            x1=Math.min(s.x,s.x+s.w); y1=Math.min(s.y,s.y+s.h);
-            x2=Math.max(s.x,s.x+s.w); y2=Math.max(s.y,s.y+s.h);
+            x1=Math.min(s.x,s.x+s.w);y1=Math.min(s.y,s.y+s.h);
+            x2=Math.max(s.x,s.x+s.w);y2=Math.max(s.y,s.y+s.h);
         }
         c.save();
-        c.strokeStyle = '#3574f0'; c.lineWidth = 1.2;
-        c.setLineDash([4,3]);
+        c.strokeStyle='#3574f0';c.lineWidth=1.2;c.setLineDash([4,3]);
         c.strokeRect(x1-4,y1-4,(x2-x1)+8,(y2-y1)+8);
         c.setLineDash([]);
-        const hx = [x1-4,(x1+x2)/2-4,x2-4,x1-4,x2-4,x1-4,(x1+x2)/2-4,x2-4];
-        const hy = [y1-4,y1-4,y1-4,(y1+y2)/2-4,(y1+y2)/2-4,y2-4,y2-4,y2-4];
-        for(let i=0;i<hx.length;i++){
-            c.fillStyle='#fff'; c.beginPath(); c.arc(hx[i]+4,hy[i]+4,4,0,Math.PI*2); c.fill();
-            c.strokeStyle='#3574f0'; c.stroke();
-        }
+        [[x1-4,y1-4],[(x1+x2)/2-4,y1-4],[x2-4,y1-4],
+            [x1-4,(y1+y2)/2-4],[x2-4,(y1+y2)/2-4],
+            [x1-4,y2-4],[(x1+x2)/2-4,y2-4],[x2-4,y2-4]].forEach(([hx,hy])=>{
+            c.fillStyle='#fff';c.beginPath();c.arc(hx+4,hy+4,4,0,Math.PI*2);c.fill();
+            c.strokeStyle='#3574f0';c.stroke();
+        });
         c.restore();
     }
 
-    // ─── SHAPE CONTAINS ──────────────────────────────────────────────────────────
-    function shapeContains(s, px, py) {
-        if (s.type==='Line'||s.type==='Arrow') {
-            return ptSegDist(s.x,s.y,s.x+s.w,s.y+s.h,px,py) < 8;
-        }
+    function shapeContains(s,px,py) {
+        if (s.type==='Line'||s.type==='Arrow') return ptSegDist(s.x,s.y,s.x+s.w,s.y+s.h,px,py)<8;
         if (s.type==='Pencil'||s.type==='Eraser') {
             for(let i=0;i<(s.points||[]).length-1;i++)
                 if(ptSegDist(s.points[i].x,s.points[i].y,s.points[i+1].x,s.points[i+1].y,px,py)<8) return true;
@@ -710,125 +745,98 @@
         return Math.hypot(px-(x1+t*dx),py-(y1+t*dy));
     }
 
-    // ─── STATUS ──────────────────────────────────────────────────────────────────
     function updateStatus(x,y) {
         if(x!==undefined) document.getElementById('status-coords').textContent=`X: ${x}, Y: ${y}`;
         document.getElementById('status-shapes').textContent=`Фігур: ${state.shapes.length}`;
         document.getElementById('status-tool').textContent=state.tool;
     }
 
-    // ─── MOUSE EVENTS ────────────────────────────────────────────────────────────
-    mainCanvas.addEventListener('mousedown', onMouseDown);
-    mainCanvas.addEventListener('mousemove', onMouseMove);
-    mainCanvas.addEventListener('mouseup', onMouseUp);
-    mainCanvas.addEventListener('mouseleave', ()=>{ state.currentShape=null; });
+    // ─── MOUSE ───────────────────────────────────────────────────────────────────
+    mainCanvas.addEventListener('mousedown',onMouseDown);
+    mainCanvas.addEventListener('mousemove',onMouseMove);
+    mainCanvas.addEventListener('mouseup',onMouseUp);
+    mainCanvas.addEventListener('mouseleave',()=>{ state.currentShape=null; });
 
     function getPos(e) {
-        const r = mainCanvas.getBoundingClientRect();
-        return { x: Math.round(e.clientX-r.left), y: Math.round(e.clientY-r.top) };
+        const r=mainCanvas.getBoundingClientRect();
+        return {x:Math.round(e.clientX-r.left),y:Math.round(e.clientY-r.top)};
     }
-
     function onMouseDown(e) {
-        const {x,y} = getPos(e);
-        state.dragStart = {x,y};
-
-        if (state.tool==='Picker') { pickColor(x,y); return; }
-        if (state.tool==='Select') { doSelect(x,y); return; }
-        if (state.tool==='Text') { openTextModal(x,y); return; }
-
+        const {x,y}=getPos(e); state.dragStart={x,y};
+        if(state.tool==='Picker'){pickColor(x,y);return;}
+        if(state.tool==='Select'){doSelect(x,y);return;}
+        if(state.tool==='Text'){openTextModal(x,y);return;}
         saveUndo();
-        const s = makeShape(state.tool, x, y);
-        state.shapes.push(s);
-        state.currentShape = s;
-        spawnParticles(x,y);
-        redraw(); updateStatus(x,y);
+        const s=makeShape(state.tool,x,y);
+        state.shapes.push(s); state.currentShape=s;
+        spawnParticles(x,y); redraw(); updateStatus(x,y);
     }
-
     function onMouseMove(e) {
-        const {x,y} = getPos(e);
-        updateStatus(x,y);
-
-        if (state.tool==='Select' && e.buttons===1 && state.selectedShape) {
-            state.selectedShape.x += x-state.dragStart.x;
-            state.selectedShape.y += y-state.dragStart.y;
-            state.dragStart={x,y};
-            redraw(); return;
+        const {x,y}=getPos(e); updateStatus(x,y);
+        if(state.tool==='Select'&&e.buttons===1&&state.selectedShape) {
+            state.selectedShape.x+=x-state.dragStart.x;
+            state.selectedShape.y+=y-state.dragStart.y;
+            state.dragStart={x,y}; redraw(); return;
         }
-        if (!state.currentShape || e.buttons!==1) return;
-        const s = state.currentShape;
-
-        if (s.type==='Pencil'||s.type==='Eraser') {
-            s.points.push({x,y});
-        } else {
-            let w=x-s.x, h=y-s.y;
-            if (e.shiftKey) { const side=Math.max(Math.abs(w),Math.abs(h)); w=w<0?-side:side; h=h<0?-side:side; }
-            s.w=w; s.h=h;
+        if(!state.currentShape||e.buttons!==1) return;
+        const s=state.currentShape;
+        if(s.type==='Pencil'||s.type==='Eraser') { s.points.push({x,y}); }
+        else {
+            let w=x-s.x,h=y-s.y;
+            if(e.shiftKey){const side=Math.max(Math.abs(w),Math.abs(h));w=w<0?-side:side;h=h<0?-side:side;}
+            s.w=w;s.h=h;
         }
         redraw();
     }
-
-    function onMouseUp() { state.currentShape=null; }
-
+    function onMouseUp(){state.currentShape=null;}
     function doSelect(x,y) {
-        if (state.selectedShape) state.selectedShape.selected=false;
+        if(state.selectedShape) state.selectedShape.selected=false;
         state.selectedShape=null;
         for(let i=state.shapes.length-1;i>=0;i--) {
-            if(shapeContains(state.shapes[i],x,y)) {
-                state.selectedShape=state.shapes[i];
-                state.selectedShape.selected=true;
-                break;
+            if(shapeContains(state.shapes[i],x,y)){
+                state.selectedShape=state.shapes[i];state.selectedShape.selected=true;break;
             }
         }
         redraw();
     }
-
     function pickColor(x,y) {
-        const imgData = ctx.getImageData(x,y,1,1).data;
-        const hex = rgbToHex(imgData[0],imgData[1],imgData[2]);
-        setColor(hex);
+        const d=ctx.getImageData(x,y,1,1).data;
+        setColor(rgbToHex(d[0],d[1],d[2]));
     }
 
-    // ─── TEXT MODAL ──────────────────────────────────────────────────────────────
+    // ─── TEXT MODAL ───────────────────────────────────────────────────────────────
     function openTextModal(x,y) {
         state.textPending={x,y};
-        const modal=document.getElementById('text-modal');
-        const input=document.getElementById('text-input');
-        modal.classList.add('open');
-        input.value='';
-        setTimeout(()=>input.focus(),50);
+        document.getElementById('text-modal').classList.add('open');
+        const inp=document.getElementById('text-input');
+        inp.value=''; setTimeout(()=>inp.focus(),50);
     }
     document.getElementById('text-ok').onclick=()=>{
-        const txt=document.getElementById('text-input').value.trim();
-        if(txt&&state.textPending){
-            saveUndo();
-            const s=makeShape('Text',state.textPending.x,state.textPending.y);
-            s.text=txt;
-            state.shapes.push(s);
-            redraw(); updateStatus();
+        const t=document.getElementById('text-input').value.trim();
+        if(t&&state.textPending){
+            saveUndo();const s=makeShape('Text',state.textPending.x,state.textPending.y);
+            s.text=t;state.shapes.push(s);redraw();updateStatus();
         }
         document.getElementById('text-modal').classList.remove('open');
     };
-    document.getElementById('text-cancel').onclick=()=>{
-        document.getElementById('text-modal').classList.remove('open');
-    };
+    document.getElementById('text-cancel').onclick=()=>document.getElementById('text-modal').classList.remove('open');
     document.getElementById('text-input').addEventListener('keydown',e=>{
         if(e.key==='Enter') document.getElementById('text-ok').click();
         if(e.key==='Escape') document.getElementById('text-cancel').click();
     });
 
-    // ─── TOOL BUTTONS ────────────────────────────────────────────────────────────
+    // ─── TOOLS ───────────────────────────────────────────────────────────────────
     document.querySelectorAll('.tool-btn').forEach(btn=>{
         btn.addEventListener('click',()=>{
-            const tool=btn.dataset.tool;
-            state.tool=tool;
-            document.querySelectorAll('.tool-btn').forEach(b=>b.classList.toggle('active',b.dataset.tool===tool));
+            state.tool=btn.dataset.tool;
+            document.querySelectorAll('.tool-btn').forEach(b=>b.classList.toggle('active',b.dataset.tool===state.tool));
             if(state.selectedShape){state.selectedShape.selected=false;state.selectedShape=null;redraw();}
             updateStatus();
         });
     });
 
-    // ─── COLOR ───────────────────────────────────────────────────────────────────
-    function setColor(hex) {
+    // ─── COLORS ───────────────────────────────────────────────────────────────────
+    function setColor(hex){
         state.color=hex;
         document.getElementById('color-dot').style.background=hex;
         document.getElementById('color-input').value=hex;
@@ -841,8 +849,6 @@
         document.getElementById('bg-dot').style.background=e.target.value;
         redraw();
     };
-
-    // ─── STROKE / FILL ───────────────────────────────────────────────────────────
     document.getElementById('stroke-select').onchange=e=>state.strokeWidth=parseFloat(e.target.value);
     document.getElementById('fill-check').onchange=e=>state.filled=e.target.checked;
 
@@ -852,13 +858,10 @@
     document.getElementById('redo-btn').onclick=redo;
     document.getElementById('clear-btn').onclick=()=>{saveUndo();state.shapes=[];state.selectedShape=null;redraw();updateStatus();};
     document.getElementById('save-btn').onclick=()=>{
-        const a=document.createElement('a');
-        a.download='vector-studio.png';
-        a.href=mainCanvas.toDataURL();
-        a.click();
+        const a=document.createElement('a');a.download='vector-studio.png';a.href=mainCanvas.toDataURL();a.click();
     };
 
-    // ─── KEYBOARD ────────────────────────────────────────────────────────────────
+    // ─── KEYBOARD ─────────────────────────────────────────────────────────────────
     document.addEventListener('keydown',e=>{
         if(e.target.tagName==='INPUT') return;
         if(e.ctrlKey&&e.key==='z'){e.preventDefault();undo();}
@@ -866,188 +869,213 @@
         if(e.ctrlKey&&e.key==='s'){e.preventDefault();document.getElementById('save-btn').click();}
         if(e.key==='g'||e.key==='G'){state.showGrid=!state.showGrid;redraw();}
         if((e.key==='Delete'||e.key==='Backspace')&&state.selectedShape){
-            e.preventDefault();
-            saveUndo();
+            e.preventDefault();saveUndo();
             state.shapes=state.shapes.filter(s=>s!==state.selectedShape);
-            state.selectedShape=null; redraw(); updateStatus();
+            state.selectedShape=null;redraw();updateStatus();
         }
     });
 
-    // ─── TEMPLATES ───────────────────────────────────────────────────────────────
-    document.getElementById('tpl-btn').onclick=(e)=>{
+    // ─── TEMPLATES DROPDOWN ───────────────────────────────────────────────────────
+    document.getElementById('tpl-btn').onclick=e=>{
         e.stopPropagation();
         document.getElementById('tpl-dropdown').classList.toggle('open');
     };
     document.querySelectorAll('.tpl-group-lbl').forEach(lbl=>{
-        lbl.onclick=(e)=>{
+        lbl.addEventListener('click',e=>{
             e.stopPropagation();
             const cat=lbl.dataset.cat;
             const sub=document.getElementById('sub-'+cat);
             if(sub) sub.classList.toggle('open');
-        };
+        });
     });
     document.querySelectorAll('.tpl-item').forEach(item=>{
-        item.onclick=(e)=>{
+        item.addEventListener('click',e=>{
             e.stopPropagation();
-            const cat=item.dataset.cat, v=parseInt(item.dataset.v);
+            const cat=item.dataset.cat,v=parseInt(item.dataset.v);
             saveUndo();
             state.shapes=createTemplate(cat,v);
             state.selectedShape=null;
             document.getElementById('tpl-dropdown').classList.remove('open');
-            redraw(); updateStatus();
-        };
+            redraw();updateStatus();
+        });
     });
     document.addEventListener('click',()=>document.getElementById('tpl-dropdown').classList.remove('open'));
 
-    // ─── TEMPLATE LOGIC ──────────────────────────────────────────────────────────
+    // ─── TEMPLATE BUILDERS ───────────────────────────────────────────────────────
     function sh(type,x,y,w,h,color,stroke,filled,extra={}) {
         return {type,x,y,w,h,color,stroke:stroke||2,filled:!!filled,selected:false,points:null,text:null,fontSize:18,...extra};
     }
-    function txt(x,y,color,text,fontSize) {
+    function tx(x,y,color,text,fontSize=16) {
         return {type:'Text',x,y,w:0,h:0,color,stroke:1,filled:false,selected:false,points:null,text,fontSize};
     }
-    function arr(x,y,w,h,color) { return sh('Arrow',x,y,w,h,color,2,false); }
-    function addNode(shapes,x,y,color,label,type) {
-        if(type===1) shapes.push(sh('Circle',x,y,120,50,color,0,true));
-        else shapes.push(sh('Rectangle',x,y,120,60,color,0,true));
-        shapes.push(txt(x+25,y+20,'#fff',label,13));
-    }
+    function ar(x,y,w,h,color,stroke=2) { return sh('Arrow',x,y,w,h,color,stroke,false); }
 
     function createTemplate(name,v) {
+        const W=mainCanvas.width||900, H=mainCanvas.height||600;
+        const cx=Math.round(W/2), cy=Math.round(H/2);
         switch(name) {
-            case 'Візитка': return businessCard(v);
-            case 'Постер': return poster(v);
-            case 'Блок-схема': return flowchart(v);
-            case 'Логотип': return logoTemplate(v);
-            case 'Рамка': return photoFrame(v);
+            case 'Візитка':   return tplBusinessCard(v,cx,cy);
+            case 'Постер':    return tplPoster(v,cx,cy);
+            case 'Блок-схема':return tplFlowchart(v,cx,cy);
+            case 'Логотип':   return tplLogo(v,cx,cy);
+            case 'Рамка':     return tplFrame(v,cx,cy);
             default: return [];
         }
     }
 
-    function businessCard(v) {
-        const s=[];
-        const acc=variantColor(v), dark='#23262d';
-        s.push(sh('Rectangle',100,100,500,280,v%2===0?dark:'#ffffff',0,true));
-        if(v===1){s.push(sh('Rectangle',100,100,20,280,acc,0,true));}
-        else if(v===2){s.push(sh('Triangle',500,100,100,100,acc,0,true));}
-        else if(v===3){s.push(sh('Rectangle',100,230,500,5,acc,0,true));}
-        else if(v===4){
-            s.push(sh('Circle',500,100,80,80,acc,0,true));
-            s.push(sh('Circle',530,130,60,60,darkenColor(acc),0,true));
-        } else {s.push(sh('Rectangle',120,120,460,240,acc,2,false));}
-        s.push(txt(150,160,v%2===0?'#fff':'#000','MYKOLA BALYUK',22));
-        s.push(txt(150,195,acc,'Software Architect v'+v,14));
+    function tplBusinessCard(v,cx,cy) {
+        const s=[], acc=vc(v), W=500, H=280;
+        const x=cx-W/2, y=cy-H/2;
+        // Фон
+        const bgCol = v%2===0 ? '#1e2130' : '#ffffff';
+        const textCol = v%2===0 ? '#ffffff' : '#111111';
+        s.push(sh('Rectangle',x,y,W,H,bgCol,0,true));
+        // Акцент
+        if(v===1) s.push(sh('Rectangle',x,y,18,H,acc,0,true));
+        else if(v===2) s.push(sh('Triangle',x+W-80,y,80,80,acc,0,true));
+        else if(v===3) s.push(sh('Rectangle',x,y+H/2-2,W,4,acc,0,true));
+        else if(v===4) {
+            s.push(sh('Circle',x+W-50,y-10,90,90,acc,0,true));
+            s.push(sh('Circle',x+W-30,y+10,60,60,darkenColor(acc,30),0,true));
+        } else {
+            s.push(sh('Rectangle',x+10,y+10,W-20,H-20,acc,2,false));
+        }
+        // Текст
+        const tx1 = v===1 ? x+35 : x+30;
+        s.push(tx(tx1, y+H*0.38, acc, 'MYKOLA BALYUK', 24));
+        s.push(tx(tx1, y+H*0.52, textCol, 'Software Architect', 14));
+        s.push(tx(tx1, y+H*0.65, textCol==='#111111'?'#555':'#aaa', 'mbalyuk@lpnu.ua  |  +38 067 000 0000', 12));
         return s;
     }
 
-    function poster(v) {
-        const s=[], acc=variantColor(v);
-        s.push(sh('Rectangle',50,50,450,650,v===5?'#000':'#fff',1,true));
-        if(v===1){s.push(sh('Rectangle',50,50,450,120,acc,0,true));}
-        else if(v===2){s.push(sh('Circle',125,200,300,300,acc,0,true));}
-        else if(v===3){for(let i=0;i<3;i++)s.push(sh('Line',50,100+i*40,450,300,acc,15,false));}
-        else if(v===4){for(let i=0;i<4;i++)s.push(sh('Rectangle',80+i*100,500,80,80,acc,0,true));}
-        else{s.push(sh('Rectangle',70,70,410,610,acc,5,false));}
-        s.push(txt(80,100,v===1||v===5?'#fff':'#000','FESTIVAL '+v,34));
+    function tplPoster(v,cx,cy) {
+        const s=[], acc=vc(v), W=420, H=580;
+        const x=cx-W/2, y=cy-H/2;
+        const bg=v===5?'#0a0a0a':'#f5f5f5';
+        const fg=v===5?'#ffffff':'#111111';
+        s.push(sh('Rectangle',x,y,W,H,bg,0,true));
+        if(v===1) {
+            s.push(sh('Rectangle',x,y,W,100,acc,0,true));
+            s.push(tx(x+20,y+28,'#ffffff','GRAND EVENT',34));
+            s.push(tx(x+20,y+68,'rgba(255,255,255,0.8)','23 CHERVNYA - LVIV',14));
+        } else if(v===2) {
+            s.push(sh('Circle',cx-130,y+170,260,260,acc,0,true));
+            s.push(tx(x+20,y+30,fg,'ВИСТАВКА',30));
+            s.push(tx(x+20,y+68,acc,'СУЧАСНОГО МИСТЕЦТВА',14));
+        } else if(v===3) {
+            for(let i=0;i<4;i++) s.push(sh('Line',x,y+80+i*50,W,60+i*20,acc,16,false));
+            s.push(tx(x+20,y+30,fg,'FESTIVAL',36));
+        } else if(v===4) {
+            for(let i=0;i<3;i++) s.push(sh('Rectangle',x+20+i*130,y+H-120,110,90,acc,0,true));
+            s.push(tx(x+20,y+30,fg,'ВИСТАВКА',30));
+            s.push(tx(x+20,y+68,acc,'2025',50));
+        } else {
+            s.push(sh('Rectangle',x+12,y+12,W-24,H-24,acc,4,false));
+            s.push(tx(x+36,y+60,v===5?'#ffffff':'#111','CONCERT NIGHT',32));
+            s.push(tx(x+36,y+100,acc,'LVIV · 2025',16));
+        }
         return s;
     }
 
-    function flowchart(v) {
-        const s=[];
-        const g='#2ecc71',b='#3574f0',o='#e67e22',r='#e74c3c';
-        const cx=400,cy=60;
-        if(v===1){
-            for(let i=0;i<3;i++)s.push(arr(cx+60,cy+50+i*120,0,70,'#888'));
-            addNode(s,cx,cy,g,'START',1); addNode(s,cx,cy+120,b,'INPUT',2);
-            addNode(s,cx,cy+240,o,'PROCESS',2); addNode(s,cx,cy+360,r,'END',1);
-        } else if(v===2){
-            addNode(s,cx,cy,g,'START',1);
-            s.push(arr(cx+60,cy+50,0,50,'#888'));
-            addNode(s,cx,cy+100,o,'IF X > 0',2);
-            s.push(arr(cx,cy+130,-100,50,'#888'));
-            s.push(arr(cx+120,cy+130,100,50,'#888'));
-            addNode(s,cx-150,cy+180,b,'TRUE',2);
-            addNode(s,cx+150,cy+180,r,'FALSE',2);
-        } else if(v===3){
-            addNode(s,cx,cy,g,'BEGIN',1);
-            s.push(sh('Line',cx-100,cy+70,320,0,'#888',2,false));
+    function tplFlowchart(v,cx,cy) {
+        const s=[], G='#2ecc71', B='#3574f0', O='#e67e22', R='#e74c3c';
+        function node(x,y,w,h,col,label,type=0) {
+            if(type===0) s.push(sh('Rectangle',x,y,w,h,col,0,true));
+            else s.push(sh('Circle',x,y,w,h,col,0,true));
+            s.push(tx(x+w/2-label.length*4,y+h/2-7,'#fff',label,13));
+        }
+        const bx=cx-60, by=cy-220;
+        if(v===1) {
+            node(bx,by,120,50,G,'START',1); s.push(ar(cx,by+50,0,60,'#888'));
+            node(bx,by+110,120,50,B,'INPUT'); s.push(ar(cx,by+160,0,60,'#888'));
+            node(bx,by+220,120,50,O,'PROCESS'); s.push(ar(cx,by+270,0,60,'#888'));
+            node(bx,by+330,120,50,R,'END',1);
+        } else if(v===2) {
+            node(bx,by,120,50,G,'START',1); s.push(ar(cx,by+50,0,60,'#888'));
+            node(bx,by+110,120,50,O,'IF X > 0');
+            s.push(ar(bx,by+135,-120,70,'#888')); s.push(ar(bx+120,by+135,120,70,'#888'));
+            node(bx-160,by+205,120,50,B,'TRUE'); node(bx+160,by+205,120,50,R,'FALSE');
+            s.push(tx(bx-90,by+180,'#888','Так',12)); s.push(tx(bx+95,by+180,'#888','Ні',12));
+        } else if(v===3) {
+            node(bx,by,120,50,G,'BEGIN',1);
+            s.push(sh('Line',bx-130,by+90,380,0,'#888',2,false));
             for(let i=0;i<3;i++){
-                s.push(arr(cx-100+i*160,cy+70,0,50,'#888'));
-                addNode(s,cx-160+i*160,cy+120,b,'TASK '+(i+1),2);
+                s.push(ar(bx-130+i*190,by+90,0,60,'#888'));
+                node(bx-190+i*190,by+150,120,50,B,'TASK '+(i+1));
             }
-        } else if(v===4){
-            addNode(s,cx,cy,b,'DATA',2);
-            s.push(arr(cx+60,cy+60,0,60,'#888'));
-            addNode(s,cx,cy+120,o,'REPEAT?',1);
-            s.push(arr(cx,cy+145,-100,-60,'#888'));
-            s.push(txt(cx-80,cy+110,'#666','YES',12));
+        } else if(v===4) {
+            node(bx,by,120,50,B,'DATA'); s.push(ar(cx,by+50,0,60,'#888'));
+            node(bx,by+110,120,50,O,'REPEAT?',1);
+            s.push(ar(bx,by+135,-140,0,'#888')); s.push(ar(bx-140,by+135,0,-95,'#888'));
+            s.push(tx(bx-120,by+120,'#666','Так',12));
+            s.push(ar(cx,by+160,0,60,'#888')); node(bx,by+220,120,50,R,'END',1);
         } else {
-            addNode(s,cx,cy,g,'INIT',1); addNode(s,cx+150,cy,b,'RUN',2);
-            s.push(arr(cx+120,cy+25,30,0,'#888'));
+            node(bx-90,by,120,50,G,'INIT',1); node(bx+90,by,120,50,B,'RUN');
+            s.push(ar(bx+30,by+25,60,0,'#888'));
+            s.push(ar(bx+150,by+50,0,70,'#888'));
+            node(bx+90,by+120,120,50,O,'LOOP'); s.push(ar(cx+90,by+170,0,60,'#888'));
+            node(bx+90,by+230,120,50,R,'END',1);
         }
         return s;
     }
 
-    function logoTemplate(v) {
-        const s=[], acc=variantColor(v), cx=350, cy=250;
-        if(v===1){
-            s.push(sh('Circle',cx-80,cy-80,160,160,'#2c3e50',8,false));
+    function tplLogo(v,cx,cy) {
+        const s=[], acc=vc(v);
+        if(v===1) {
+            s.push(sh('Circle',cx-75,cy-75,150,150,'#2c3e50',7,false));
             s.push(sh('Circle',cx-30,cy-30,60,60,acc,0,true));
-        } else if(v===2){
-            s.push(sh('Triangle',cx-60,cy-80,120,100,acc,0,true));
-            s.push(sh('Rectangle',cx-60,cy+20,120,20,acc,0,true));
-        } else if(v===3){
-            s.push(sh('Rectangle',cx-70,cy-70,140,140,'#333',4,false));
-            s.push(sh('Rectangle',cx-40,cy-40,80,80,acc,0,true));
-        } else if(v===4){
-            s.push(arr(cx,cy+60,0,-120,acc));
+            s.push(tx(cx-45,cy+95,'#333','BRAND NAME',18));
+        } else if(v===2) {
+            s.push(sh('Triangle',cx-55,cy-70,110,90,acc,0,true));
+            s.push(sh('Rectangle',cx-55,cy+20,110,18,acc,0,true));
+            s.push(tx(cx-50,cy+70,'#333','LOGO v2',18));
+        } else if(v===3) {
+            s.push(sh('Rectangle',cx-65,cy-65,130,130,'#2c3e50',4,false));
+            s.push(sh('Rectangle',cx-38,cy-38,76,76,acc,0,true));
+            s.push(tx(cx-45,cy+95,'#333','BRAND',18));
+        } else if(v===4) {
+            s.push(ar(cx,cy+60,0,-130,acc,3));
+            s.push(sh('Circle',cx-30,cy-70,60,60,acc,0,true));
+            s.push(tx(cx-45,cy+90,'#333','UPWARD',18));
         } else {
-            for(let i=0;i<3;i++) s.push(sh('Triangle',cx-80+i*20,cy-60+i*30,160-i*40,80,acc,2,false));
+            for(let i=0;i<3;i++) s.push(sh('Triangle',cx-70+i*18,cy-55+i*28,140-i*36,70,acc,2,false));
+            s.push(tx(cx-45,cy+90,'#333','PYRAMID',18));
         }
-        s.push(txt(cx-80,cy+130,'#000','LOGO V'+v,22));
         return s;
     }
 
-    function photoFrame(v) {
+    function tplFrame(v,cx,cy) {
         const s=[];
-        const gold='#d4af37', wood='#65432a';
-        const c = v%2===0?gold:wood;
-        s.push(sh('Rectangle',80,80,520,420,c,12,false));
-        if(v===1){
-            [[80,80],[588,80],[80,488],[588,488]].forEach(([px,py])=>s.push(sh('Circle',px-6,py-6,12,12,c,0,true)));
-        } else if(v===2){
-            s.push(sh('Rectangle',100,100,480,380,c,2,false));
-        } else if(v===3){
-            s.push(sh('Triangle',315,65,50,30,c,0,true));
-        } else if(v===4){
-            s.push(sh('Rectangle',80,440,520,60,c,0,true));
+        const gold='#d4af37', wood='#8b5e3c';
+        const col=v%2===0?gold:wood;
+        const W=500,H=380, x=cx-W/2, y=cy-H/2;
+        s.push(sh('Rectangle',x,y,W,H,col,10,false));
+        if(v===1) {
+            [[x,y],[x+W,y],[x,y+H],[x+W,y+H]].forEach(([px,py])=>
+                s.push(sh('Circle',px-8,py-8,16,16,col,0,true)));
+        } else if(v===2) {
+            s.push(sh('Rectangle',x+12,y+12,W-24,H-24,col,2,false));
+        } else if(v===3) {
+            s.push(sh('Triangle',cx-20,y-16,40,20,col,0,true));
+            s.push(sh('Triangle',cx-20,y+H-4,40,20,col,0,true));
+        } else if(v===4) {
+            s.push(sh('Rectangle',x,y+H-50,W,50,col,0,true));
+            s.push(tx(cx-60,y+H-28,'#fff','Photo Caption',14));
         } else {
-            s.push(sh('Rectangle',95,95,520,420,'rgba(0,0,0,0.2)',0,true));
+            s.push(sh('Rectangle',x+8,y+8,W-16,H-16,'rgba(0,0,0,.12)',0,true));
         }
-        s.push(txt(260,535,c,'Photo Variant '+v,18));
+        s.push(tx(cx-60,y+H+20,col,'Photo Frame v'+v,14));
         return s;
     }
 
-    function darkenColor(hex) {
-        const {r,g,b}=hexToRgb(hex);
-        return rgbToHex(Math.max(r-40,0),Math.max(g-40,0),Math.max(b-40,0));
-    }
-
-    // ─── PARTICLE SYSTEM ─────────────────────────────────────────────────────────
+    // ─── PARTICLES ────────────────────────────────────────────────────────────────
     function spawnParticles(cx,cy) {
         const PAL=['#00dcff','#7828dc','#ff32b4','#00ff96','#ffc800'];
-        const n = 12+Math.floor(Math.random()*8);
-        for(let i=0;i<n;i++){
-            const angle=Math.random()*Math.PI*2, speed=1.5+Math.random()*5;
-            state.particles.push({
-                x:cx, y:cy,
-                vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed,
-                size:3+Math.random()*5,
-                life:18+Math.floor(Math.random()*22),
-                maxLife:0,
-                color:PAL[Math.floor(Math.random()*PAL.length)]
-            });
-            state.particles[state.particles.length-1].maxLife=state.particles[state.particles.length-1].life;
+        for(let i=0;i<14+Math.floor(Math.random()*8);i++){
+            const a=Math.random()*Math.PI*2,spd=1.5+Math.random()*5;
+            const p={x:cx,y:cy,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,size:3+Math.random()*5,
+                life:18+Math.floor(Math.random()*22),col:PAL[Math.floor(Math.random()*PAL.length)]};
+            p.maxLife=p.life; state.particles.push(p);
         }
     }
 
@@ -1055,46 +1083,31 @@
     function animLoop() {
         state.tick++;
         octx.clearRect(0,0,overlayCanvas.width,overlayCanvas.height);
-
-        // dot grid
-        const GRID=32;
-        const cols=Math.ceil(overlayCanvas.width/GRID)+1;
-        const rows=Math.ceil(overlayCanvas.height/GRID)+1;
+        const GRID=32, cols=Math.ceil(overlayCanvas.width/GRID)+1, rows=Math.ceil(overlayCanvas.height/GRID)+1;
         const t=state.tick*0.038;
         for(let r=0;r<rows;r++){
             for(let c=0;c<cols;c++){
                 const idx=Math.min(r*cols+c,state.dotPhases.length-1);
-                const phase=state.dotPhases[idx]||0;
-                const pulse=(Math.sin(t+phase)*0.5+0.5);
+                const pulse=(Math.sin(t+(state.dotPhases[idx]||0))*0.5+0.5);
                 const alpha=Math.floor(pulse*52+8);
                 const ratio=c/Math.max(cols-1,1);
-                const red=Math.floor(120*ratio);
-                const green=Math.floor(220-180*ratio);
-                const blue=Math.floor(255-35*ratio);
                 const sz=pulse*1.8+0.5;
-                octx.fillStyle=`rgba(${red},${green},${blue},${alpha/255})`;
-                octx.beginPath();
-                octx.arc(c*GRID,r*GRID,sz/2,0,Math.PI*2);
-                octx.fill();
+                octx.fillStyle=`rgba(${Math.floor(120*ratio)},${Math.floor(220-180*ratio)},${Math.floor(255-35*ratio)},${alpha/255})`;
+                octx.beginPath();octx.arc(c*GRID,r*GRID,sz/2,0,Math.PI*2);octx.fill();
             }
         }
-
-        // particles
         state.particles=state.particles.filter(p=>p.life>0);
         for(const p of state.particles){
             const a=p.life/p.maxLife;
-            const rgb=hexToRgb(p.color);
-            octx.fillStyle=`rgba(${rgb.r},${rgb.g},${rgb.b},${a*0.82})`;
+            const {r,g,b}=hexToRgb(p.col);
+            octx.fillStyle=`rgba(${r},${g},${b},${a*0.82})`;
             const sz=a*p.size;
-            octx.beginPath(); octx.arc(p.x,p.y,sz/2,0,Math.PI*2); octx.fill();
-            p.x+=p.vx; p.y+=p.vy; p.vx*=0.92; p.vy*=0.92; p.vy+=0.09; p.life--;
+            octx.beginPath();octx.arc(p.x,p.y,sz/2,0,Math.PI*2);octx.fill();
+            p.x+=p.vx;p.y+=p.vy;p.vx*=0.92;p.vy*=0.92;p.vy+=0.09;p.life--;
         }
-
         requestAnimationFrame(animLoop);
     }
     animLoop();
-
-    // ─── INIT ────────────────────────────────────────────────────────────────────
     redraw();
     updateStatus();
 </script>
