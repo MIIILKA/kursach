@@ -876,30 +876,32 @@
     });
 
     // ─── TEMPLATES DROPDOWN ───────────────────────────────────────────────────────
-    document.getElementById('tpl-btn').onclick=e=>{
+    const tplDropdown = document.getElementById('tpl-dropdown');
+    document.getElementById('tpl-btn').addEventListener('click',e=>{
         e.stopPropagation();
-        document.getElementById('tpl-dropdown').classList.toggle('open');
-    };
-    document.querySelectorAll('.tpl-group-lbl').forEach(lbl=>{
-        lbl.addEventListener('click',e=>{
-            e.stopPropagation();
+        tplDropdown.classList.toggle('open');
+    });
+    tplDropdown.addEventListener('click',e=>{
+        e.stopPropagation();
+        const lbl=e.target.closest('.tpl-group-lbl');
+        if(lbl){
             const cat=lbl.dataset.cat;
+            document.querySelectorAll('.tpl-sub').forEach(s=>{ if(s.id!=='sub-'+cat) s.classList.remove('open'); });
             const sub=document.getElementById('sub-'+cat);
             if(sub) sub.classList.toggle('open');
-        });
-    });
-    document.querySelectorAll('.tpl-item').forEach(item=>{
-        item.addEventListener('click',e=>{
-            e.stopPropagation();
+            return;
+        }
+        const item=e.target.closest('.tpl-item');
+        if(item){
             const cat=item.dataset.cat,v=parseInt(item.dataset.v);
             saveUndo();
             state.shapes=createTemplate(cat,v);
             state.selectedShape=null;
-            document.getElementById('tpl-dropdown').classList.remove('open');
+            tplDropdown.classList.remove('open');
             redraw();updateStatus();
-        });
+        }
     });
-    document.addEventListener('click',()=>document.getElementById('tpl-dropdown').classList.remove('open'));
+    document.addEventListener('click',()=>tplDropdown.classList.remove('open'));
 
     // ─── TEMPLATE BUILDERS ───────────────────────────────────────────────────────
     function sh(type,x,y,w,h,color,stroke,filled,extra={}) {
